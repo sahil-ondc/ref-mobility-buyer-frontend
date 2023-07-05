@@ -136,7 +136,7 @@ const SearchScreen = ({ isMapsLoaded }) => {
     setOpenPanel(true);
   };
   const [fromLocation, setFromLocation] = useState({
-    display: 'ThoughtWorks',
+    display: 'ONDC',
     latLong: '12.9298819961062, 77.62865178465772',
   });
   const [toLocation, setToLocation] = useState({

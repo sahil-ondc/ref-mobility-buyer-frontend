@@ -23,6 +23,6 @@ describe('Status Screen', () => {
   it('Should display header and footer', () => {
     render(<StatusScreen />);
     expect(screen.getByAltText('ONDC')).toBeInTheDocument();
-    expect(screen.getByText('Powered by Thoughtworks')).toBeInTheDocument();
+    expect(screen.getByText('Powered by ONDC')).toBeInTheDocument();
   });
 });

@@ -15,7 +15,7 @@ const Footer = () => (
       >
         Open-source license
         <br />
-        <b>Powered by Thoughtworks</b>
+        <b>Powered by ONDC</b>
       </Typography>
     </Grid>
   </div>

@@ -27,6 +27,6 @@ describe('Confirm screen', () => {
       <ConfirmScreen />,
     ));
     expect(screen.getByAltText('ONDC')).toBeInTheDocument();
-    expect(screen.getByText('Powered by Thoughtworks')).toBeInTheDocument();
+    expect(screen.getByText('Powered by ONDC')).toBeInTheDocument();
   });
 });
