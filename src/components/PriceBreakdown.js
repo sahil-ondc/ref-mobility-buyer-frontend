@@ -30,7 +30,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 const PriceBreakdown = ({ quote }) => (
   <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 280 }} aria-label="customized table">
+    <Table
+      sx={{ minWidth: 280 }}
+      aria-label="customized table"
+    >
       <TableHead>
         <TableRow>
           <StyledTableCell>Fare Breakup</StyledTableCell>
@@ -40,7 +43,10 @@ const PriceBreakdown = ({ quote }) => (
       <TableBody>
         {quote?.breakup.map((row) => (
           <StyledTableRow key={row.title}>
-            <StyledTableCell component="th" scope="row">
+            <StyledTableCell
+              component="th"
+              scope="row"
+            >
               {row.title}
             </StyledTableCell>
             <StyledTableCell align="right">
@@ -51,16 +57,17 @@ const PriceBreakdown = ({ quote }) => (
           </StyledTableRow>
         ))}
         <StyledTableRow key="total">
-          <StyledTableCell component="th" scope="row">
-            <Typography fontWeight="bold">
-              Total
-            </Typography>
+          <StyledTableCell
+            component="th"
+            scope="row"
+          >
+            <Typography fontWeight="bold">Total</Typography>
           </StyledTableCell>
           <StyledTableCell align="right">
             <Typography fontWeight="bold">
-              {quote.price.currency}
+              {quote?.price?.currency}
               {' '}
-              {quote.price.value}
+              {quote?.price?.value}
             </Typography>
           </StyledTableCell>
         </StyledTableRow>

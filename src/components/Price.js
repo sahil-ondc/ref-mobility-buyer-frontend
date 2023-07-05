@@ -19,25 +19,25 @@ const variantStyles = {
 };
 const Price = ({ price, variant = 'medium' }) => (
   <>
-    {!!price.value && (
+    {!!price?.value && (
       <Typography
         variant={variantStyles[variant].textVariant}
         fontWeight={variantStyles[variant].fontWeight}
       >
         ₹&nbsp;
-        {price.value}
+        {price?.value}
       </Typography>
     )}
-    {!!price.minimum_value && !!price.maximum_value && (
+    {!!price?.minimum_value && !!price?.maximum_value && (
       <Typography
         variant={variantStyles[variant].textVariant}
         align="center"
       >
         ₹&nbsp;
-        {price.minimum_value}
+        {price?.minimum_value}
         &nbsp;-&nbsp;
         ₹&nbsp;
-        {price.maximum_value}
+        {price?.maximum_value}
       </Typography>
     )}
   </>

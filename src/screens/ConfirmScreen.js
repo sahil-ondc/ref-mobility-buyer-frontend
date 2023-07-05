@@ -18,7 +18,11 @@ const ConfirmScreen = () => {
   const { message_id } = location.state;
 
   const onTrackVehicle = async () => {
-    const sampleContext = ContextBuilder.getContext('track', confirmResults[0].context.bpp_uri, confirmResults[0].context.transaction_id);
+    const sampleContext = ContextBuilder.getContext(
+      'track',
+      confirmResults[0].context.bpp_uri,
+      confirmResults[0].context.transaction_id,
+    );
     const data = {
       context: {
         ...sampleContext,
@@ -37,7 +41,11 @@ const ConfirmScreen = () => {
   };
 
   const onCheckStatus = async () => {
-    const sampleContext = ContextBuilder.getContext('status', confirmResults[0].context.bpp_uri, confirmResults[0].context.transaction_id);
+    const sampleContext = ContextBuilder.getContext(
+      'status',
+      confirmResults[0].context.bpp_uri,
+      confirmResults[0].context.transaction_id,
+    );
     const data = {
       context: {
         ...sampleContext,
@@ -72,7 +80,10 @@ const ConfirmScreen = () => {
   }, [getConfirmResult, loading]);
 
   const displayConfirmScreen = () => (
-    <Grid paddingY={10} container>
+    <Grid
+      paddingY={10}
+      container
+    >
       <Confirmation
         details={confirmResults[0]}
         onTrackVehicle={onTrackVehicle}

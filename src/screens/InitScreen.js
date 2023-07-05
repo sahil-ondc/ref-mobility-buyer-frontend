@@ -27,15 +27,15 @@ const InitScreen = ({ isMapsLoaded }) => {
   const { message_id, locations } = location.state;
   const onConfirmJourney = async () => {
     const data = {
-      context: ContextBuilder.getContext('confirm', initResults[0]?.context?.bpp_uri, initResults[0]?.context?.transaction_id),
+      context: ContextBuilder.getContext('confirm', initResults?.[0]?.context?.bpp_uri, initResults?.[0]?.context?.transaction_id),
       message: {
         order: {
-          id: initResults[0]?.message?.order?.id,
+          id: initResults?.[0]?.message?.order?.id,
           provider: {
-            id: initResults[0]?.message?.order?.provider?.id,
+            id: initResults?.[0]?.message?.order?.provider?.id,
           },
-          items: initResults[0]?.message?.order?.items,
-          fulfillment: initResults[0]?.message?.order?.provider?.fulfillments[0],
+          items: initResults?.[0]?.message?.order?.items,
+          fulfillment: initResults?.[0]?.message?.order?.provider?.fulfillments?.[0],
         },
       },
     };

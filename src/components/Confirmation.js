@@ -32,9 +32,9 @@ const Confirmation = ({ details, onTrackVehicle, onCheckStatus }) => (
     <Typography variant="body1" display="block" gutterBottom>
       Fare:
       {' '}
-      {details.message.order.items[0].price.currency}
+      {details.message.order.items[0].price?.currency}
       {' '}
-      {details.message.order.items[0].price.value}
+      {details.message.order.items[0].price?.value}
     </Typography>
     <div>
       {details.message.order.fulfillment.vehicle
