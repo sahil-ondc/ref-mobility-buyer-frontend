@@ -9,7 +9,9 @@ import InitScreen from './screens/InitScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
 import TrackScreen from './screens/TrackScreen';
 import StatusScreen from './screens/StatusScreen';
+import LoginScreen from './screens/LoginScreen';
 import GooglePlacesApiLoader from './api/googlePlacesApiLoader';
+import SignUpScreen from './screens/SignUpScreen';
 
 const libraries = ['places'];
 
@@ -26,11 +28,13 @@ const App = () => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
   return (
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <Routes>
+
             <Route path="/" element={<SearchScreen isMapsLoaded={isLoaded} />} />
             <Route path="/search" element={<SearchResult isMapsLoaded={isLoaded} />} />
             <Route path="/select" element={<SelectJourney />} />
@@ -38,6 +42,8 @@ const App = () => {
             <Route path="/confirm" element={<ConfirmScreen />} />
             <Route path="/track" element={<TrackScreen />} />
             <Route path="/status" element={<StatusScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/signUp" element={<SignUpScreen />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

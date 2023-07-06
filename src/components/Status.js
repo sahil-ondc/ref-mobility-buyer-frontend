@@ -8,7 +8,7 @@ const Status = ({ vehicleStatus, onTrackVehicle }) => {
 
   useEffect(() => {
     if (vehicleStatus[0].context.bpp_id
-      === 'sample_mobility_bpp_cabs') {
+      === 'https://example-bpp.com') {
       setIsCab(true);
     }
   }, []);
@@ -27,7 +27,7 @@ const Status = ({ vehicleStatus, onTrackVehicle }) => {
           <h3>
             Your order status is:
             {' '}
-            {vehicleStatus[0].message.order.state}
+            {vehicleStatus[0].message.order.fulfillment.state.descriptor.name}
           </h3>
         </Grid>
         <Grid

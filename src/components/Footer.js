@@ -7,10 +7,9 @@ const Footer = () => (
   <div className="footer">
     <Grid item>
       <Typography
-        variant="body2"
+        color="primary"
         paddingLeft={1}
         justifyContent="flex-end"
-        color="#1976e9"
         align="center"
       >
         Open-source license
