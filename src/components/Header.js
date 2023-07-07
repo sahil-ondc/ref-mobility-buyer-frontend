@@ -1,14 +1,14 @@
 import React from 'react';
 import { Grid, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const Header = ({ onBackClick }) => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const handleClick = () => {
     window.localStorage.clear();
-    navigate('/login');
+    navigate.push('/login');
   };
 
   return (
@@ -24,14 +24,20 @@ const Header = ({ onBackClick }) => {
       alignItems="center"
       justify="space-between"
     >
-      {onBackClick
-    && (
-    <IconButton color="black" onClick={onBackClick} size="small">
-      <ArrowBackIosNewIcon fontSize="inherit" />
-    </IconButton>
-    )}
+      {onBackClick && (
+        <IconButton
+          color="black"
+          onClick={onBackClick}
+          size="small"
+        >
+          <ArrowBackIosNewIcon fontSize="inherit" />
+        </IconButton>
+      )}
 
-      <Grid item marginLeft={2}>
+      <Grid
+        item
+        marginLeft={2}
+      >
         <img
           height={50}
           width={95}
@@ -39,13 +45,16 @@ const Header = ({ onBackClick }) => {
           alt="ONDC"
         />
       </Grid>
-      <Grid marginLeft="auto" marginRight={3}>
-
+      <Grid
+        marginLeft="auto"
+        marginRight={3}
+      >
         <Grid>
-          <LogoutIcon style={{ color: '#327B18', height: 30, width: 30 }} onClick={handleClick} />
-
+          <LogoutIcon
+            style={{ color: '#327B18', height: 30, width: 30 }}
+            onClick={handleClick}
+          />
         </Grid>
-
       </Grid>
     </Grid>
   );

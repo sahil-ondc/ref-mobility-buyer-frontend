@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-  render, screen, act,
-} from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import { useLocation } from 'react-router-dom';
 import Api from '../api/Api';
 import ConfirmScreen from './ConfirmScreen';
 
 jest.mock('react-router-dom', () => ({
-  useNavigate: jest.fn(),
+  useHistory: jest.fn(),
   useLocation: jest.fn(),
 }));
 
@@ -20,12 +18,12 @@ describe('Confirm screen', () => {
         message_id: '12345',
       },
     }));
-    Api.poll = jest.fn().mockImplementation((getConfirmResult) => getConfirmResult());
+    Api.poll = jest
+      .fn()
+      .mockImplementation((getConfirmResult) => getConfirmResult());
   });
   it('Should display Header and footer', () => {
-    act(() => render(
-      <ConfirmScreen />,
-    ));
+    act(() => render(<ConfirmScreen />));
     expect(screen.getByAltText('ONDC')).toBeInTheDocument();
     expect(screen.getByText('Powered by ONDC')).toBeInTheDocument();
   });

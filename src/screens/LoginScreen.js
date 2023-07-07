@@ -14,22 +14,22 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
+import { useHistory } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
 
 const SignIn = () => {
   const { register, handleSubmit } = useForm();
 
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const onSubmit = async (data) => {
     try {
       const res = await Api.post('/login', data);
       if (res.success) {
         const token = res?.data?.token;
         window.localStorage.setItem('token', token);
-        navigate('/');
+        navigate.push('/');
       }
     } catch (error) {
       return error;
@@ -43,18 +43,16 @@ const SignIn = () => {
     if (res.success) {
       const token = res?.data?.token;
       window.localStorage.setItem('token', token);
-      navigate('/');
+      navigate.push('/');
     }
   };
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    flow: 'auth-code',
-  });
-
   return (
     <>
-      <Container component="main" maxWidth="xs">
+      <Container
+        component="main"
+        maxWidth="xs"
+      >
         <CssBaseline />
         <Box
           sx={{
@@ -67,7 +65,10 @@ const SignIn = () => {
           <Avatar sx={{ m: 1, bgcolor: '#327B18' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography
+            component="h1"
+            variant="h5"
+          >
             Log In
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,7 +106,7 @@ const SignIn = () => {
                     },
                   }}
                 />
-                      )}
+              )}
               label="Remember me"
             />
             <Button
@@ -117,19 +118,14 @@ const SignIn = () => {
             >
               Login
             </Button>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              disableRipple
-              style={{ marginBottom: '20px' }}
-              onClick={googleLogin}
-            >
-              Login by Google
-            </Button>
             <Grid container>
               <Grid item>
-                <Link href="/signUp" style={{ marginBottom: '20px' }}>signUp</Link>
+                <Link
+                  href="/signUp"
+                  style={{ marginBottom: '20px' }}
+                >
+                  signUp
+                </Link>
               </Grid>
             </Grid>
             <GoogleLogin
@@ -140,17 +136,14 @@ const SignIn = () => {
               onError={() => {
                 console.log('Login Failed');
               }}
-              auto_select
+              // auto_select
               useOneTap
             />
-
           </form>
         </Box>
       </Container>
       <Footer />
-
     </>
-
   );
 };
 

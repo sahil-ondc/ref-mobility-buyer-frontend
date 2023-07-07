@@ -1,17 +1,19 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-array-index-key */
+import React, { useEffect } from 'react';
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+  useHistory,
+} from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
-import SearchScreen from './screens/SearchScreen';
-import SearchResult from './screens/SearchResult';
-import SelectJourney from './screens/SelectJourney';
-import InitScreen from './screens/InitScreen';
-import ConfirmScreen from './screens/ConfirmScreen';
-import TrackScreen from './screens/TrackScreen';
-import StatusScreen from './screens/StatusScreen';
-import LoginScreen from './screens/LoginScreen';
 import GooglePlacesApiLoader from './api/googlePlacesApiLoader';
-import SignUpScreen from './screens/SignUpScreen';
+import routes from './routes';
+import PrivateLayout from './components/PrivateLayout';
+import PublicLayout from './components/PublicLayout';
 
 const libraries = ['places'];
 
@@ -22,6 +24,34 @@ const theme = createTheme({
     },
   },
 });
+
+export const CustomRoutes = ({
+  restricted, component: Component, isLoaded, ...rest
+}) => {
+  const navigate = useHistory();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('token');
+    if (restricted && !accessToken) navigate.push('/login');
+    else if (!restricted && accessToken) {
+      navigate.push('/');
+    }
+  }, [restricted]);
+
+  return (
+    <Route {...rest}>
+      {restricted ? (
+        <PrivateLayout>
+          <Component isMapsLoaded={isLoaded} />
+        </PrivateLayout>
+      ) : (
+        <PublicLayout>
+          <Component />
+        </PublicLayout>
+      )}
+    </Route>
+  );
+};
 const App = () => {
   const { isLoaded } = GooglePlacesApiLoader({
     id: 'google-map-script',
@@ -33,18 +63,30 @@ const App = () => {
     <div>
       <ThemeProvider theme={theme}>
         <BrowserRouter>
-          <Routes>
-
-            <Route path="/" element={<SearchScreen isMapsLoaded={isLoaded} />} />
-            <Route path="/search" element={<SearchResult isMapsLoaded={isLoaded} />} />
-            <Route path="/select" element={<SelectJourney />} />
-            <Route path="/init" element={<InitScreen isMapsLoaded={isLoaded} />} />
-            <Route path="/confirm" element={<ConfirmScreen />} />
-            <Route path="/track" element={<TrackScreen />} />
-            <Route path="/status" element={<StatusScreen />} />
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/signUp" element={<SignUpScreen />} />
-          </Routes>
+          <Switch>
+            {routes.map((route, index) => {
+              const {
+                component, path, exact, restricted,
+              } = route;
+              return (
+                <Route
+                  key={index}
+                  path={path}
+                  exact={exact}
+                  render={() => (
+                    <CustomRoutes
+                      path={path}
+                      exact={exact}
+                      restricted={restricted}
+                      component={component}
+                      isLoaded={isLoaded}
+                    />
+                  )}
+                />
+              );
+            })}
+            <Redirect to="/login" />
+          </Switch>
         </BrowserRouter>
       </ThemeProvider>
     </div>

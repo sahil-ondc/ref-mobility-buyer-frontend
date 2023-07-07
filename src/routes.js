@@ -46,22 +46,32 @@ export const TrackScreenRoute = {
 };
 export const StatusScreenRoute = {
   component: StatusScreen,
-  path: '/track',
+  path: '/status',
   restricted: true,
   exact: true,
 };
 export const LoginScreenRoute = {
   component: LoginScreen,
   path: '/login',
-  restricted: true,
+  restricted: false,
   exact: true,
 };
 export const SignUpScreenRoute = {
   component: SignUpScreen,
   path: '/signUp',
-  restricted: true,
+  restricted: false,
   exact: true,
 };
 
-const ROUTES = [];
+const ROUTES = [
+  SearchScreenRoute,
+  LoginScreenRoute,
+  SignUpScreenRoute,
+  SearchResultRoute,
+  SelectJourneyRoute,
+  InitScreenRoute,
+  ConfirmScreenRoute,
+  TrackScreenRoute,
+  StatusScreenRoute,
+];
 export default ROUTES;

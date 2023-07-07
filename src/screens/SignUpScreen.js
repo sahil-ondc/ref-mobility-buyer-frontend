@@ -14,7 +14,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useForm } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
 
@@ -23,19 +23,22 @@ const SignUpScreen = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const { register, handleSubmit } = useForm();
 
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const onSubmit = async (data) => {
     try {
       const res = await Api.post('/sign-up', data);
       const token = res?.data?.token;
       window.localStorage.setItem('token', token);
-      navigate('/login');
+      navigate.push('/login');
     } catch (error) {
       return error;
     }
   };
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -48,12 +51,22 @@ const SignUpScreen = () => {
         <Avatar sx={{ m: 1, bgcolor: 'green' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography
+          component="h1"
+          variant="h5"
+        >
           Sign up
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+          <Grid
+            container
+            spacing={2}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={6}
+            >
               <TextField
                 autoComplete="given-name"
                 name="name"
@@ -65,7 +78,10 @@ const SignUpScreen = () => {
                 autoFocus
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <TextField
                 required
                 fullWidth
@@ -76,7 +92,10 @@ const SignUpScreen = () => {
                 {...register('email')}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <TextField
                 required
                 fullWidth
@@ -88,7 +107,10 @@ const SignUpScreen = () => {
                 {...register('password')}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid
+              item
+              xs={12}
+            >
               <FormControlLabel
                 control={(
                   <Checkbox
@@ -96,7 +118,7 @@ const SignUpScreen = () => {
                     color="primary"
                     onClick={handleClickShowPassword}
                   />
-)}
+                )}
                 label="Show Password"
               />
             </Grid>
@@ -110,9 +132,15 @@ const SignUpScreen = () => {
             Sign Up
           </Button>
         </form>
-        <Grid container justifyContent="flex-end">
+        <Grid
+          container
+          justifyContent="flex-end"
+        >
           <Grid item>
-            <Link href="/login" variant="body2">
+            <Link
+              href="/login"
+              variant="body2"
+            >
               Already have an account? Sign in
             </Link>
           </Grid>

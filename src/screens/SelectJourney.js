@@ -1,6 +1,6 @@
 /* eslint camelcase: 0 */
 import * as React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import moment from 'moment';
 import Quote from '../components/Quote';
@@ -12,15 +12,19 @@ import Footer from '../components/Footer';
 
 const SelectJourney = () => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useHistory();
 
-  const { message_id, provider, locations } = location.state;
+  const { message_id, provider, locations } = location.state.state;
   const [bookingInformationLoaded, setbookingInformationLoaded] = React.useState(false);
   const [bookingInformation, setbookingInformation] = React.useState({});
   const [loadingJourney, setLoadingJourney] = React.useState(true);
   const onInitJourney = async (userDetails) => {
     const data = {
-      context: ContextBuilder.getContext('select', bookingInformation[0]?.context?.bpp_uri, bookingInformation[0]?.context?.transaction_id),
+      context: ContextBuilder.getContext(
+        'select',
+        bookingInformation[0]?.context?.bpp_uri,
+        bookingInformation[0]?.context?.transaction_id,
+      ),
       message: {
         order: {
           provider: bookingInformation[0]?.message?.order?.provider,
@@ -39,7 +43,7 @@ const SelectJourney = () => {
     const response = await Api.post('/init', data);
     response.locations = locations;
     if (response.message_id) {
-      navigate('/init', { state: { ...response } });
+      navigate.push('/init', { state: { ...response } });
     }
   };
   const getSelectResult = React.useCallback(async () => {
@@ -53,15 +57,20 @@ const SelectJourney = () => {
     }
   }, [bookingInformationLoaded, message_id]);
   const gotoHome = () => {
-    navigate('/', { state: {} });
+    navigate.push('/', { state: {} });
   };
   React.useEffect(() => {
     Api.poll(getSelectResult, 3, 1500);
   }, [getSelectResult, loadingJourney]);
   const displayQuote = () => (
-    <Grid paddingY={10} container>
-
-      <Grid item xs={12}>
+    <Grid
+      paddingY={10}
+      container
+    >
+      <Grid
+        item
+        xs={12}
+      >
         <Quote
           bookingInformation={bookingInformation}
           provider={provider}
