@@ -27,9 +27,11 @@ const SignUpScreen = () => {
   const onSubmit = async (data) => {
     try {
       const res = await Api.post('/sign-up', data);
-      const token = res?.data?.token;
-      window.localStorage.setItem('token', token);
-      navigate.push('/login');
+      if (res.success) {
+        const token = res?.data?.token;
+        window.localStorage.setItem('token', token);
+        navigate.push('/');
+      }
     } catch (error) {
       return error;
     }

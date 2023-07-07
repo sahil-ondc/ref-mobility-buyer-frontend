@@ -7,8 +7,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -21,6 +19,8 @@ import Api from '../api/Api';
 
 const SignIn = () => {
   const { register, handleSubmit } = useForm();
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const navigate = useHistory();
   const onSubmit = async (data) => {
@@ -34,6 +34,9 @@ const SignIn = () => {
     } catch (error) {
       return error;
     }
+  };
+  const handleSignup = () => {
+    navigate.push('/signUp');
   };
   const onGoogleLogin = async (credentialResponse) => {
     const payload = {
@@ -83,32 +86,29 @@ const SignIn = () => {
               autoFocus
               {...register('email')}
             />
+
             <TextField
-              margin="normal"
               required
               fullWidth
               name="password"
               label="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
-              autoComplete="current-password"
+              autoComplete="new-password"
               {...register('password')}
             />
+
             <FormControlLabel
-              style={{ marginBottom: '20px' }}
               control={(
                 <Checkbox
-                  value="remember"
-                  sx={{
-                    color: 'black',
-                    '&.Mui-checked': {
-                      color: 'black',
-                    },
-                  }}
+                  value="Show Password"
+                  color="primary"
+                  onClick={handleClickShowPassword}
                 />
-              )}
-              label="Remember me"
+                )}
+              label="Show Password"
             />
+
             <Button
               type="submit"
               fullWidth
@@ -118,16 +118,15 @@ const SignIn = () => {
             >
               Login
             </Button>
-            <Grid container>
-              <Grid item>
-                <Link
-                  href="/signUp"
-                  style={{ marginBottom: '20px' }}
-                >
-                  signUp
-                </Link>
-              </Grid>
-            </Grid>
+            <Button
+              fullWidth
+              variant="contained"
+              disableRipple
+              style={{ marginBottom: '20px' }}
+              onClick={handleSignup}
+            >
+              Signup
+            </Button>
             <GoogleLogin
               style={{ margin: '20px' }}
               onSuccess={(credentialResponse) => {
