@@ -64,7 +64,7 @@ const OnlinePayment = ({ onPaymentSelect, selectedValue }) => (
 );
 
 const LoaderScreen = ({
-  onConfirmPayment, initResults, onPaymentSelect, paymentMode,
+  onConfirmPayment, initResults, onPaymentSelect, paymentMode, createTrip,
 }) => (
   <div>
     <Item item={initResults[0]?.message?.order?.items[0]} />
@@ -78,7 +78,10 @@ const LoaderScreen = ({
         fullWidth
         variant="contained"
         disabled={!(paymentMode.length > 0)}
-        onClick={onConfirmPayment}
+        onClick={() => {
+          onConfirmPayment();
+          createTrip();
+        }}
       >
         Book Now
       </Button>
@@ -87,7 +90,7 @@ const LoaderScreen = ({
   </div>
 );
 
-const Payment = ({ onConfirmPayment, initResults }) => {
+const Payment = ({ onConfirmPayment, initResults, createTrip }) => {
   const [openPanel, setOpenPanel] = useState(true);
   const toggleDrawer = () => {
     setOpenPanel(true);
@@ -106,6 +109,7 @@ const Payment = ({ onConfirmPayment, initResults }) => {
             initResults={initResults}
             onPaymentSelect={onPaymentSelect}
             paymentMode={paymentMode}
+            createTrip={createTrip}
           />
         )}
         open={openPanel}

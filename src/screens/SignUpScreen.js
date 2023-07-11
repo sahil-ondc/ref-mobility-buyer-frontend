@@ -67,7 +67,6 @@ const SignUpScreen = () => {
             <Grid
               item
               xs={12}
-              sm={6}
             >
               <TextField
                 autoComplete="given-name"

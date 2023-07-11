@@ -1,17 +1,12 @@
 import React from 'react';
 import { Grid, IconButton } from '@mui/material';
-import { useHistory } from 'react-router-dom';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import LogoutIcon from '@mui/icons-material/Logout';
+import SideDrawer from './SideDrawer';
 
-const Header = ({ onBackClick }) => {
-  const navigate = useHistory();
-  const handleClick = () => {
-    window.localStorage.clear();
-    navigate.push('/login');
-  };
+const Header = ({ onBackClick }) =>
 
-  return (
+  // eslint-disable-next-line implicit-arrow-linebreak
+  (
     <Grid
       container
       paddingLeft={1}
@@ -25,13 +20,13 @@ const Header = ({ onBackClick }) => {
       justify="space-between"
     >
       {onBackClick && (
-        <IconButton
-          color="black"
-          onClick={onBackClick}
-          size="small"
-        >
-          <ArrowBackIosNewIcon fontSize="inherit" />
-        </IconButton>
+      <IconButton
+        color="black"
+        onClick={onBackClick}
+        size="small"
+      >
+        <ArrowBackIosNewIcon fontSize="inherit" />
+      </IconButton>
       )}
 
       <Grid
@@ -49,15 +44,10 @@ const Header = ({ onBackClick }) => {
         marginLeft="auto"
         marginRight={3}
       >
-        <Grid>
-          <LogoutIcon
-            style={{ color: '#327B18', height: 30, width: 30 }}
-            onClick={handleClick}
-          />
+        <Grid className="Drawer">
+          <SideDrawer />
         </Grid>
       </Grid>
     </Grid>
   );
-};
-
 export default Header;

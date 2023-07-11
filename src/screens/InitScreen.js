@@ -49,6 +49,30 @@ const InitScreen = ({ isMapsLoaded }) => {
       navigate.push('/confirm', { state: { ...response } });
     }
   };
+
+  const createTrip = async () => {
+    try {
+      const locationDetails = {
+        start: initResults?.[0]?.message?.order?.fulfillment?.start,
+        end: initResults?.[0]?.message?.order?.fulfillment?.end,
+      };
+      const data = {
+        driver: initResults?.[0]?.message?.order?.fulfillment?.agent?.name,
+        qoute: initResults?.[0]?.message?.order?.quote,
+        location: locationDetails,
+        vehicle: initResults?.[0]?.message?.order?.fulfillment?.vehicle?.category,
+        transaction_id: initResults?.[0]?.context?.transaction_id,
+        bpp_uri: initResults?.[0]?.context?.bpp_uri,
+        fulfillment_id: initResults?.[0]?.message?.order?.fulfillment?.id,
+        provider_id: initResults?.[0]?.message?.order?.provider?.id,
+        order_id: initResults?.[0]?.message?.order?.id,
+      };
+      const response = await Api.post('/create-trip', data, true);
+      return response;
+    } catch (error) {
+      return error.message ? error.message : error;
+    }
+  };
   const getInitResult = useCallback(async () => {
     if (!initResultsLoaded) {
       const result = await Api.get('init', { message_id });
@@ -73,6 +97,7 @@ const InitScreen = ({ isMapsLoaded }) => {
         <Payment
           onConfirmPayment={onConfirmJourney}
           initResults={initResults}
+          createTrip={createTrip}
         />
       </Grid>
     </Grid>

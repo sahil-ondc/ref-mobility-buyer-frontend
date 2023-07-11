@@ -1,8 +1,10 @@
-const post = async (url, body) => {
+const post = async (url, body, auth) => {
+  const token = window.localStorage.getItem('token');
+  const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
   const response = await fetch(url, {
     method: 'post',
     body: JSON.stringify(body),
-    headers: { 'Content-Type': 'application/json' },
+    headers,
   });
   return response.json();
 };
@@ -14,6 +16,15 @@ const get = async (url, queryParams) => {
     )
     .join('&');
   const response = await fetch(`${url}?${query}`);
+  return response.json();
+};
+
+const authGet = async (url, auth) => {
+  const token = window.localStorage.getItem('token');
+  const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
+  const response = await fetch(url, {
+    headers,
+  });
   return response.json();
 };
 
@@ -29,4 +40,5 @@ export default {
   post,
   get,
   poll,
+  authGet,
 };

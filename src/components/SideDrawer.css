@@ -1,0 +1,7 @@
+.MuiDrawer-root .MuiPaper-root {
+  /* height: 100vh !important; */
+}
+.DrawerLogout {
+  bottom: 0;
+  position: absolute !important;
+}

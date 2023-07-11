@@ -7,6 +7,8 @@ import TrackScreen from './screens/TrackScreen';
 import StatusScreen from './screens/StatusScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import SearchScreen from './screens/SearchScreen';
+import TripsScreen from './screens/TripsScreen';
+import Settings from './screens/SettingScreen';
 
 export const SearchScreenRoute = {
   component: SearchScreen,
@@ -44,6 +46,13 @@ export const TrackScreenRoute = {
   restricted: true,
   exact: true,
 };
+export const TripsScreenRoute = {
+  component: TripsScreen,
+  path: '/trips',
+  restricted: true,
+  exact: true,
+};
+
 export const StatusScreenRoute = {
   component: StatusScreen,
   path: '/status',
@@ -62,6 +71,12 @@ export const SignUpScreenRoute = {
   restricted: false,
   exact: true,
 };
+export const SettingScreenRoute = {
+  component: Settings,
+  path: '/setting',
+  restricted: true,
+  exact: true,
+};
 
 const ROUTES = [
   SearchScreenRoute,
@@ -73,5 +88,7 @@ const ROUTES = [
   ConfirmScreenRoute,
   TrackScreenRoute,
   StatusScreenRoute,
+  TripsScreenRoute,
+  SettingScreenRoute,
 ];
 export default ROUTES;
