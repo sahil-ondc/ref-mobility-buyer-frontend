@@ -18,6 +18,7 @@ const Header = ({ onBackClick }) => {
       zIndex={99}
       alignItems="center"
       justify="space-between"
+      boxShadow="0px 2px 5px 0px rgb(134 132 132 / 60%);"
     >
       {onBackClick && (
         <IconButton
