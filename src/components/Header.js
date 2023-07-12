@@ -28,6 +28,7 @@ const Header = ({ onBackClick }) => {
           <ArrowBackIosNewIcon fontSize="inherit" />
         </IconButton>
       )}
+
       <Grid
         marginLeft={2}
       >
@@ -49,7 +50,14 @@ const Header = ({ onBackClick }) => {
           style={{ cursor: 'pointer' }}
         />
       </Grid>
-
+      <Grid
+        marginLeft="auto"
+        marginRight={3}
+      >
+        <Grid className="Drawer">
+          <SideDrawer />
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
