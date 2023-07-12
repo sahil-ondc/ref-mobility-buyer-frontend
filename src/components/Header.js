@@ -28,18 +28,11 @@ const Header = ({ onBackClick }) => {
           <ArrowBackIosNewIcon fontSize="inherit" />
         </IconButton>
       )}
+
       <Grid
         item
         marginLeft={2}
         onClick={() => navigate.push('/')}
-      >
-        <Grid className="Drawer">
-          <SideDrawer />
-        </Grid>
-      </Grid>
-      <Grid
-        marginLeft="auto"
-        marginRight={3}
       >
         <img
           height={50}
@@ -49,7 +42,14 @@ const Header = ({ onBackClick }) => {
           style={{ cursor: 'pointer' }}
         />
       </Grid>
-
+      <Grid
+        marginLeft="auto"
+        marginRight={3}
+      >
+        <Grid className="Drawer">
+          <SideDrawer />
+        </Grid>
+      </Grid>
     </Grid>
   );
 };
