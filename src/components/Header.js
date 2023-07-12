@@ -30,8 +30,16 @@ const Header = ({ onBackClick }) => {
       )}
 
       <Grid
-        item
         marginLeft={2}
+      >
+        <Grid className="Drawer">
+          <SideDrawer />
+        </Grid>
+      </Grid>
+      <Grid
+        item
+        marginLeft="auto"
+        marginRight={3}
         onClick={() => navigate.push('/')}
       >
         <img

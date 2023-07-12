@@ -111,6 +111,7 @@ export default function TemporaryDrawer() {
             <MenuIcon />
           </IconButton>
           <SwipeableDrawer
+            hideBackdrop
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
