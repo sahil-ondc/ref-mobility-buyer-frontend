@@ -46,7 +46,7 @@ const Header = ({ onBackClick }) => {
         marginLeft="auto"
         marginRight={3}
       >
-        <Grid className="Drawer">
+        <Grid>
           <SideDrawer />
         </Grid>
       </Grid>

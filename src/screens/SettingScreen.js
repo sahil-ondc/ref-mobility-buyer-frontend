@@ -12,20 +12,17 @@ import Api from '../api/Api';
 
 const Settings = () => {
   const { register, handleSubmit, setValue } = useForm();
-  const [userDetails, setUserDetails] = React.useState({});
 
   // eslint-disable-next-line consistent-return
   const fetchUserDetails = async () => {
     try {
       const response = await Api.authGet('/user-details', true);
       if (response.success) {
-        setUserDetails(response.data);
         setValue('name', response?.data?.name);
         setValue('phone', response?.data?.phone);
         setValue('email', response?.data?.email);
       }
     } catch (error) {
-      console.log(error);
       return error.message ? error.message : error;
     }
   };
@@ -34,7 +31,6 @@ const Settings = () => {
     fetchUserDetails();
   }, []);
 
-  console.log('userDetails', userDetails);
   const onSubmit = async () => {
   };
   return (

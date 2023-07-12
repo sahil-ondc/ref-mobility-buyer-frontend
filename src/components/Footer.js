@@ -14,7 +14,7 @@ const Footer = () => (
       >
         Open-source license
         <br />
-        <b>Powered by ONDC</b>
+        <b>Powered by ONDC Protocol</b>
       </Typography>
     </Grid>
   </div>

@@ -1,13 +1,16 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Grid, IconButton } from '@mui/material';
+import {
+  Grid,
+  IconButton,
+  SwipeableDrawer,
+} from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CommuteIcon from '@mui/icons-material/Commute';
@@ -49,7 +52,10 @@ export default function TemporaryDrawer() {
     return <LogoutIcon />;
   };
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === 'keydown'
+      && (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
 
@@ -75,11 +81,12 @@ export default function TemporaryDrawer() {
       </Grid>
       <List>
         {['Dashboard', 'Trips', 'Settings'].map((text) => (
-          <ListItem key={text} disablePadding>
+          <ListItem
+            key={text}
+            disablePadding
+          >
             <ListItemButton onClick={() => handleClick(text)}>
-              <ListItemIcon>
-                {logoFinder(text)}
-              </ListItemIcon>
+              <ListItemIcon>{logoFinder(text)}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
@@ -88,9 +95,7 @@ export default function TemporaryDrawer() {
       <List className="DrawerLogout">
         <ListItem disablePadding>
           <ListItemButton onClick={() => handleClick('Log Out')}>
-            <ListItemIcon>
-              {logoFinder('Log Out')}
-            </ListItemIcon>
+            <ListItemIcon>{logoFinder('Log Out')}</ListItemIcon>
             <ListItemText primary="Log Out" />
           </ListItemButton>
         </ListItem>
@@ -105,13 +110,19 @@ export default function TemporaryDrawer() {
           <IconButton onClick={toggleDrawer(anchor, true)}>
             <MenuIcon />
           </IconButton>
-          <Drawer
+          <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
+            variant="temporary"
+            disableSwipeToOpen={false}
+            allowSwipeInChildren
+            ModalProps={{
+              keepMounted: true,
+            }}
           >
             {list(anchor)}
-          </Drawer>
+          </SwipeableDrawer>
         </React.Fragment>
       ))}
     </div>
