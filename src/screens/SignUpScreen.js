@@ -98,6 +98,20 @@ const SignUpScreen = () => {
               xs={12}
             >
               <TextField
+                autoComplete="phone"
+                name="phone"
+                required
+                fullWidth
+                id="phone"
+                label="Phone Number"
+                {...register('phone')}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+            >
+              <TextField
                 required
                 fullWidth
                 name="password"

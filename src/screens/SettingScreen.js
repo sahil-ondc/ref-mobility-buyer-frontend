@@ -4,17 +4,37 @@ import { useForm } from 'react-hook-form';
 import { Avatar, Button, CssBaseline } from '@mui/material';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import Api from '../api/Api';
 
 const Settings = () => {
-  const { register, handleSubmit } = useForm();
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const { register, handleSubmit, setValue } = useForm();
+  const [userDetails, setUserDetails] = React.useState({});
+
+  // eslint-disable-next-line consistent-return
+  const fetchUserDetails = async () => {
+    try {
+      const response = await Api.authGet('/user-details', true);
+      if (response.success) {
+        setUserDetails(response.data);
+        setValue('name', response?.data?.name);
+        setValue('phone', response?.data?.phone);
+        setValue('email', response?.data?.email);
+      }
+    } catch (error) {
+      console.log(error);
+      return error.message ? error.message : error;
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUserDetails();
+  }, []);
+
+  console.log('userDetails', userDetails);
   const onSubmit = async () => {
   };
   return (
@@ -47,36 +67,33 @@ const Settings = () => {
               required
               fullWidth
               id="name"
-              label="Name"
               name="name"
               autoComplete="name"
-              autoFocus
+              placeholder="Name"
               {...register('name')}
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="phone"
-              label="Phone"
-              name="phone"
-              autoComplete="phone"
-              autoFocus
-              {...register('phone')}
+              id="email"
+              name="email"
+              placeholder="Email"
+              autoComplete="email"
+              {...register('email')}
+              disabled
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              {...register('email')}
-              style={{ marginBottom: '20px' }}
+              placeholder="Phone Number"
+              id="phone"
+              name="phone"
+              autoComplete="phone"
+              {...register('phone')}
             />
-
+            {/*
             <TextField
               required
               fullWidth
@@ -98,19 +115,7 @@ const Settings = () => {
               autoComplete="newPassword"
               {...register('newPassword')}
               style={{ marginBottom: '20px' }}
-            />
-
-            <FormControlLabel
-              style={{ marginBottom: '20px' }}
-              control={(
-                <Checkbox
-                  value="Show Password"
-                  color="primary"
-                  onClick={handleClickShowPassword}
-                />
-                )}
-              label="Show Password"
-            />
+            /> */}
 
             <Button
               type="submit"
@@ -119,14 +124,13 @@ const Settings = () => {
               disableRipple
               style={{ marginBottom: '20px' }}
             >
-              Reset
+              Update
             </Button>
           </form>
         </Box>
       </Container>
 
       <Footer />
-
     </div>
   );
 };

@@ -1,12 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Grid, IconButton } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import SideDrawer from './SideDrawer';
 
-const Header = ({ onBackClick }) =>
-
-  // eslint-disable-next-line implicit-arrow-linebreak
-  (
+const Header = ({ onBackClick }) => {
+  const navigate = useHistory();
+  return (
     <Grid
       container
       paddingLeft={1}
@@ -20,24 +20,26 @@ const Header = ({ onBackClick }) =>
       justify="space-between"
     >
       {onBackClick && (
-      <IconButton
-        color="black"
-        onClick={onBackClick}
-        size="small"
-      >
-        <ArrowBackIosNewIcon fontSize="inherit" />
-      </IconButton>
+        <IconButton
+          color="black"
+          onClick={onBackClick}
+          size="small"
+        >
+          <ArrowBackIosNewIcon fontSize="inherit" />
+        </IconButton>
       )}
 
       <Grid
         item
         marginLeft={2}
+        onClick={() => navigate.push('/')}
       >
         <img
           height={50}
           width={95}
           src="https://ondc-static-website-media.s3.ap-south-1.amazonaws.com/res/daea2fs3n/image/upload/ondc-website/image--6-/1665032253.png"
           alt="ONDC"
+          style={{ cursor: 'pointer' }}
         />
       </Grid>
       <Grid
@@ -50,4 +52,5 @@ const Header = ({ onBackClick }) =>
       </Grid>
     </Grid>
   );
+};
 export default Header;
