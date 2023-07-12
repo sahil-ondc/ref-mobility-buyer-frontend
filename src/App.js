@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import GooglePlacesApiLoader from './api/googlePlacesApiLoader';
 import routes from './routes';
 import PrivateLayout from './components/PrivateLayout';
@@ -61,34 +62,36 @@ const App = () => {
 
   return (
     <div>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Switch>
-            {routes.map((route, index) => {
-              const {
-                component, path, exact, restricted,
-              } = route;
-              return (
-                <Route
-                  key={index}
-                  path={path}
-                  exact={exact}
-                  render={() => (
-                    <CustomRoutes
-                      path={path}
-                      exact={exact}
-                      restricted={restricted}
-                      component={component}
-                      isLoaded={isLoaded}
-                    />
-                  )}
-                />
-              );
-            })}
-            <Redirect to="/login" />
-          </Switch>
-        </BrowserRouter>
-      </ThemeProvider>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_API_KEY}>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <Switch>
+              {routes.map((route, index) => {
+                const {
+                  component, path, exact, restricted,
+                } = route;
+                return (
+                  <Route
+                    key={index}
+                    path={path}
+                    exact={exact}
+                    render={() => (
+                      <CustomRoutes
+                        path={path}
+                        exact={exact}
+                        restricted={restricted}
+                        component={component}
+                        isLoaded={isLoaded}
+                      />
+                    )}
+                  />
+                );
+              })}
+              <Redirect to="/login" />
+            </Switch>
+          </BrowserRouter>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </div>
   );
 };
