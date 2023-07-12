@@ -50,14 +50,6 @@ const Header = ({ onBackClick }) => {
           style={{ cursor: 'pointer' }}
         />
       </Grid>
-      <Grid
-        marginLeft="auto"
-        marginRight={3}
-      >
-        <Grid>
-          <SideDrawer />
-        </Grid>
-      </Grid>
     </Grid>
   );
 };
