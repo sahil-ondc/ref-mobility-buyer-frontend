@@ -17,7 +17,7 @@ import './SideDrawer.css';
 
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
-    right: false,
+    left: false,
   });
   const navigate = useHistory();
   const handleClick = (text) => {
@@ -100,12 +100,13 @@ export default function TemporaryDrawer() {
 
   return (
     <div>
-      {['right'].map((anchor) => (
+      {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
           <IconButton onClick={toggleDrawer(anchor, true)}>
             <MenuIcon />
           </IconButton>
           <Drawer
+            hideBackdrop
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}

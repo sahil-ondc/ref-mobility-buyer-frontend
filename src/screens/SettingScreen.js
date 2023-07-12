@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useForm } from 'react-hook-form';
@@ -12,30 +13,36 @@ import Api from '../api/Api';
 
 const Settings = () => {
   const { register, handleSubmit, setValue } = useForm();
-  const [userDetails, setUserDetails] = React.useState({});
 
   // eslint-disable-next-line consistent-return
   const fetchUserDetails = async () => {
     try {
       const response = await Api.authGet('/user-details', true);
       if (response.success) {
-        setUserDetails(response.data);
         setValue('name', response?.data?.name);
         setValue('phone', response?.data?.phone);
         setValue('email', response?.data?.email);
       }
     } catch (error) {
-      console.log(error);
       return error.message ? error.message : error;
     }
   };
-
   React.useEffect(() => {
     fetchUserDetails();
   }, []);
 
-  console.log('userDetails', userDetails);
-  const onSubmit = async () => {
+  const handleUpdate = async (data) => {
+    const payload = {
+      userDetail: data,
+    };
+    try {
+      const response = await Api.put('/user-details', payload, true);
+      if (response.success) {
+        console.log(response);
+      }
+    } catch (error) {
+      return error.message ? error.message : error;
+    }
   };
   return (
     <div>
@@ -61,7 +68,7 @@ const Settings = () => {
           >
             Edit Profile
           </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(handleUpdate)}>
             <TextField
               margin="normal"
               required
@@ -93,30 +100,6 @@ const Settings = () => {
               autoComplete="phone"
               {...register('phone')}
             />
-            {/*
-            <TextField
-              required
-              fullWidth
-              name="currentPassword"
-              label="currentPassword"
-              type={showPassword ? 'text' : 'password'}
-              id="currentPassword"
-              autoComplete="currentPassword"
-              {...register('currentPassword')}
-              style={{ marginBottom: '20px' }}
-            />
-            <TextField
-              required
-              fullWidth
-              name="newPassword"
-              label="NewPassword"
-              type={showPassword ? 'text' : 'password'}
-              id="newPassword"
-              autoComplete="newPassword"
-              {...register('newPassword')}
-              style={{ marginBottom: '20px' }}
-            /> */}
-
             <Button
               type="submit"
               fullWidth

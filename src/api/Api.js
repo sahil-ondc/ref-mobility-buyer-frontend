@@ -27,6 +27,16 @@ const authGet = async (url, auth) => {
   });
   return response.json();
 };
+const put = async (url, body, auth) => {
+  const token = window.localStorage.getItem('token');
+  const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
+  const response = await fetch(url, {
+    method: 'put',
+    body: JSON.stringify(body),
+    headers,
+  });
+  return response.json();
+};
 
 const poll = (call, times, delay) => {
   if (times === 0) return;
@@ -41,4 +51,5 @@ export default {
   get,
   poll,
   authGet,
+  put,
 };
