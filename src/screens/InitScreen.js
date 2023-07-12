@@ -24,6 +24,7 @@ const InitScreen = ({ isMapsLoaded }) => {
   const closeDrawer = () => {
     setOpenPanel(false);
   };
+
   const { message_id, locations } = location.state.state;
   const onConfirmJourney = async () => {
     const data = {

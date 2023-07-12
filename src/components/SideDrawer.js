@@ -7,9 +7,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import {
+  Drawer,
   Grid,
   IconButton,
-  SwipeableDrawer,
 } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -18,7 +18,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useHistory } from 'react-router-dom';
 import './SideDrawer.css';
 
-export default function TemporaryDrawer() {
+const SideDrawer = () => {
   const [state, setState] = React.useState({
     left: false,
   });
@@ -51,6 +51,7 @@ export default function TemporaryDrawer() {
     }
     return <LogoutIcon />;
   };
+
   const toggleDrawer = (anchor, open) => (event) => {
     if (
       event.type === 'keydown'
@@ -110,22 +111,18 @@ export default function TemporaryDrawer() {
           <IconButton onClick={toggleDrawer(anchor, true)}>
             <MenuIcon />
           </IconButton>
-          <SwipeableDrawer
-            hideBackdrop
+          <Drawer
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
             variant="temporary"
-            disableSwipeToOpen={false}
-            allowSwipeInChildren
-            ModalProps={{
-              keepMounted: true,
-            }}
+            onOpen={() => null}
           >
             {list(anchor)}
-          </SwipeableDrawer>
+          </Drawer>
         </React.Fragment>
       ))}
     </div>
   );
-}
+};
+export default SideDrawer;

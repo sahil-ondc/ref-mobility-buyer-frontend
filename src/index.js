@@ -12,7 +12,7 @@ import '@fontsource/roboto/700.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId="93374628709-g9q31r7sglvqi0acf55ce1j8cthlkbva.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.GOOGLE_API_KEY}>
       <App />
     </GoogleOAuthProvider>
   </React.StrictMode>,
