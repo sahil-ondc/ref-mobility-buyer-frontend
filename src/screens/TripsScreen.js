@@ -81,6 +81,10 @@ export default function ControlledAccordions() {
                     Vehicle Type:
                     <Typography sx={{ color: 'text.secondary' }}>{trip.vehicle}</Typography>
                   </Grid>
+                  <Grid item xs={6} sm={4} md={3}>
+                    user Name:
+                    <Typography sx={{ color: 'text.secondary' }}>{trip.user?.name}</Typography>
+                  </Grid>
                 </Grid>
               </AccordionDetails>
             </Accordion>

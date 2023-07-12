@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+/* eslint-disable consistent-return */
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Grid, Button } from '@mui/material';
 import './Quote.css';
@@ -6,6 +7,7 @@ import Provider from './Provider';
 import InputField from './InputField';
 import Item from './Item';
 import PriceBreakdown from './PriceBreakdown';
+import Api from '../api/Api';
 
 const Quote = ({ bookingInformation, provider, onInitJourney }) => (
   <Grid container paddingX={4}>
@@ -37,7 +39,21 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
     onInitJourney(userDetails);
   };
   const formatValue = (value) => value;
-
+  const userDetails = async () => {
+    try {
+      const response = await Api.authGet('/user-details', true);
+      if (response.success) {
+        setName(response?.data?.name);
+        setPhoneNumber(response?.data?.phone);
+        setEmail(response?.data?.email);
+      }
+    } catch (error) {
+      return error.message ? error.message : error;
+    }
+  };
+  useEffect(() => {
+    userDetails();
+  }, []);
   return (
     <>
       <Item item={bookingInformation[0]?.message?.order?.items[0]} />

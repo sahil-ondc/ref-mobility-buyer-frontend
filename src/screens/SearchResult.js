@@ -26,7 +26,6 @@ const SearchResult = ({ isMapsLoaded }) => {
   const closeDrawer = () => {
     setOpenPanel(false);
   };
-  console.log('location', location);
   const { message_id, locationMap, locations } = location?.state?.state;
   const [searchResults, setSearchResults] = useState([]);
   const [originLocation] = useState(locations.originLocation);
