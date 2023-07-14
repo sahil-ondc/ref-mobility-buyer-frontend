@@ -1,5 +1,5 @@
 /* eslint-disable consistent-return */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Grid, Button } from '@mui/material';
 import './Quote.css';
@@ -30,6 +30,8 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [otherUser, setOtherUser] = useState(false);
+  const [userDetail, setUserDetail] = useState(null);
   const onSubmitUserDetails = () => {
     const userDetails = {
       name,
@@ -38,22 +40,35 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
     };
     onInitJourney(userDetails);
   };
+  const handleOtherUser = () => {
+    setOtherUser(!otherUser);
+  };
   const formatValue = (value) => value;
   const userDetails = async () => {
     try {
       const response = await Api.authGet('/user-details', true);
       if (response.success) {
-        setName(response?.data?.name);
-        setPhoneNumber(response?.data?.phone);
-        setEmail(response?.data?.email);
+        setUserDetail(response?.data);
       }
     } catch (error) {
       return error.message ? error.message : error;
     }
   };
-  useEffect(() => {
+
+  React.useEffect(() => {
     userDetails();
   }, []);
+  React.useEffect(() => {
+    if (!otherUser && userDetail !== null) {
+      setName(userDetail?.name);
+      setPhoneNumber(userDetail?.phone);
+      setEmail(userDetail?.email);
+    } else if (otherUser) {
+      setName('');
+      setPhoneNumber('');
+      setEmail('');
+    }
+  }, [userDetail, otherUser]);
   return (
     <>
       <Item item={bookingInformation[0]?.message?.order?.items[0]} />
@@ -71,6 +86,8 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
           />
         </Grid>
       </Grid>
+
+      {otherUser && (
       <Grid
         sx={{
           maxWidth: '100%',
@@ -79,7 +96,7 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
         }}
       >
         <Typography variant="h6" fontSize="1.2em" textAlign="center">
-          User Details
+          Other User Details
         </Typography>
         <Grid className="quote-fare-breakup">
           <Grid marginBottom="2%">
@@ -119,6 +136,25 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
           </Grid>
         </Grid>
       </Grid>
+      )}
+
+      { otherUser ? (
+        <Typography
+          sx={{ marginLeft: '150px' }}
+          align="right"
+          onClick={handleOtherUser}
+        >
+          Booking for Yourself ?
+        </Typography>
+      ) : (
+        <Typography
+          sx={{ marginLeft: '150px' }}
+          align="right"
+          onClick={handleOtherUser}
+        >
+          Booking for someone ?
+        </Typography>
+      )}
       <Button
         fullWidth
         variant="contained"

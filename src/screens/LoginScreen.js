@@ -46,7 +46,7 @@ const SignIn = () => {
     if (res.success) {
       const token = res?.data?.token;
       window.localStorage.setItem('token', token);
-      navigate.push('/');
+      navigate.push('/moreInfo');
     }
   };
 
@@ -127,8 +127,9 @@ const SignIn = () => {
             >
               Signup
             </Button>
+
             <GoogleLogin
-              style={{ margin: '20px' }}
+              width="355px"
               onSuccess={(credentialResponse) => {
                 onGoogleLogin(credentialResponse);
               }}
@@ -137,6 +138,7 @@ const SignIn = () => {
               }}
               useOneTap
             />
+
           </form>
         </Box>
       </Container>

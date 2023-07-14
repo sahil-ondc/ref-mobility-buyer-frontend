@@ -9,6 +9,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import SearchScreen from './screens/SearchScreen';
 import TripsScreen from './screens/TripsScreen';
 import Settings from './screens/SettingScreen';
+import MoreInfoScreen from './screens/MoreInfoScreen';
 
 export const SearchScreenRoute = {
   component: SearchScreen,
@@ -65,6 +66,12 @@ export const LoginScreenRoute = {
   restricted: false,
   exact: true,
 };
+export const MoreInfoScreenRoute = {
+  component: MoreInfoScreen,
+  path: '/moreInfo',
+  restricted: true,
+  exact: true,
+};
 export const SignUpScreenRoute = {
   component: SignUpScreen,
   path: '/signUp',
@@ -90,5 +97,6 @@ const ROUTES = [
   StatusScreenRoute,
   TripsScreenRoute,
   SettingScreenRoute,
+  MoreInfoScreenRoute,
 ];
 export default ROUTES;
