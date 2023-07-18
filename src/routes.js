@@ -68,7 +68,7 @@ export const LoginScreenRoute = {
 };
 export const MoreInfoScreenRoute = {
   component: MoreInfoScreen,
-  path: '/moreInfo',
+  path: '/onboarding',
   restricted: true,
   exact: true,
 };

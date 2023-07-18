@@ -20,6 +20,7 @@ import Api from '../api/Api';
 
 const MoreInfoScreen = () => {
   const { register, handleSubmit, setValue } = useForm();
+  const [userDetail, setUserDetail] = React.useState({});
 
   const navigate = useHistory();
   const onSubmit = async (data) => {
@@ -32,16 +33,18 @@ const MoreInfoScreen = () => {
         navigate.push('/');
       }
     } catch (error) {
-      return error;
+      return error.message ? error.message : error;
     }
   };
   const fetchUserDetails = async () => {
     try {
       const response = await Api.authGet('/user-details', true);
       if (response.success) {
+        setUserDetail(response?.data);
         setValue('name', response?.data?.name);
-
+        setValue('phone', response?.data?.phone);
         setValue('email', response?.data?.email);
+        setValue('gender', response?.data?.gender);
       }
     } catch (error) {
       return error.message ? error.message : error;
@@ -50,6 +53,13 @@ const MoreInfoScreen = () => {
   React.useEffect(() => {
     fetchUserDetails();
   }, []);
+
+  React.useEffect(() => {
+    if (userDetail?.phone) {
+      navigate.push('/');
+    }
+  }, [userDetail]);
+
   return (
     <Container
       component="main"
@@ -129,12 +139,12 @@ const MoreInfoScreen = () => {
                 <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
-                  defaultValue="female"
+                  defaultValue="male"
                   name="radio-buttons-group"
                   {...register('gender')}
                 >
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
                   <FormControlLabel value="male" control={<Radio />} label="Male" />
+                  <FormControlLabel value="female" control={<Radio />} label="Female" />
                   <FormControlLabel value="other" control={<Radio />} label="Other" />
                 </RadioGroup>
               </FormControl>
@@ -146,7 +156,7 @@ const MoreInfoScreen = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Procced to dashboard
+            Proceed to dashboard
           </Button>
         </form>
       </Box>

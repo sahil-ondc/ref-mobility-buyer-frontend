@@ -46,7 +46,7 @@ const SignIn = () => {
     if (res.success) {
       const token = res?.data?.token;
       window.localStorage.setItem('token', token);
-      navigate.push('/moreInfo');
+      navigate.push('/onboarding');
     }
   };
 
