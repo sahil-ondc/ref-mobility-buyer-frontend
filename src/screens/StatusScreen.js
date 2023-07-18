@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Header from '../components/Header';
 import Api from '../api/Api';
@@ -10,14 +10,18 @@ import Status from '../components/Status';
 import Footer from '../components/Footer';
 
 const StatusScreen = () => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const [loading, setLoading] = useState(true);
   const [statusResults, setStatusResults] = useState([]);
   const [statusResultsLoaded, setstatusResultsLoaded] = useState(false);
   const location = useLocation();
-  const { message_id } = location.state;
+  const { message_id } = location.state.state;
   const onTrackVehicle = async () => {
-    const sampleContext = ContextBuilder.getContext('track', statusResults[0]?.context?.bpp_uri, statusResults[0]?.context?.transaction_id);
+    const sampleContext = ContextBuilder.getContext(
+      'track',
+      statusResults[0]?.context?.bpp_uri,
+      statusResults[0]?.context?.transaction_id,
+    );
     const data = {
       context: {
         ...sampleContext,
@@ -31,7 +35,7 @@ const StatusScreen = () => {
     };
     const response = await Api.post('/track', data);
     if (response.message_id) {
-      navigate('/track', { state: { ...response } });
+      navigate.push('/track', { state: { ...response } });
     }
   };
 
@@ -52,14 +56,23 @@ const StatusScreen = () => {
   }, [getStatusResult, loading]);
 
   const displayTrack = () => (
-    <Grid paddingY={10} container>
-      <Grid item xs={12}>
-        <Status vehicleStatus={statusResults} onTrackVehicle={onTrackVehicle} />
+    <Grid
+      paddingY={10}
+      container
+    >
+      <Grid
+        item
+        xs={12}
+      >
+        <Status
+          vehicleStatus={statusResults}
+          onTrackVehicle={onTrackVehicle}
+        />
       </Grid>
     </Grid>
   );
   const gotoHome = () => {
-    navigate('/', { state: {} });
+    navigate.push('/', { state: {} });
   };
   return (
     <>

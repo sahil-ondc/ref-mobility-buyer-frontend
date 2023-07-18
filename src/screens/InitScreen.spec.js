@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-  render, screen,
-} from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { useLocation } from 'react-router-dom';
 import Api from '../api/Api';
 import InitScreen from './InitScreen';
 
 jest.mock('react-router-dom', () => ({
-  useNavigate: jest.fn(),
+  useHistory: jest.fn(),
   useLocation: jest.fn(),
 }));
 

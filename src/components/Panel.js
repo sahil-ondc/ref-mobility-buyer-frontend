@@ -31,7 +31,6 @@ const Panel = ({
       <Global
         styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
-            height: openDrawerHeight,
             overflow: 'visible',
           },
         }}
@@ -45,11 +44,15 @@ const Panel = ({
         swipeAreaWidth={drawerBleeding}
         disableSwipeToOpen={false}
         allowSwipeInChildren
+        PaperProps={{
+          sx: { height: openDrawerHeight },
+        }}
         ModalProps={{
           keepMounted: true,
         }}
-        transitionDuration={isTransitionPresent ? { appear: 500, enter: 300, exit: 5 }
-          : 5}
+        transitionDuration={
+          isTransitionPresent ? { appear: 500, enter: 300, exit: 5 } : 5
+        }
       >
         <Box
           className="panel-styledbox"

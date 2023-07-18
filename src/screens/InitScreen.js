@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Payment from '../components/Payment';
 import Loader from '../components/Loader';
 import Header from '../components/Header';
@@ -12,7 +12,7 @@ import Panel from '../components/Panel';
 import Map from '../components/Map';
 
 const InitScreen = ({ isMapsLoaded }) => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const [loading, setLoading] = useState(true);
   const [initResults, setInitResults] = useState([]);
   const [initResultsLoaded, setInitResultsLoaded] = useState(false);
@@ -24,10 +24,15 @@ const InitScreen = ({ isMapsLoaded }) => {
   const closeDrawer = () => {
     setOpenPanel(false);
   };
-  const { message_id, locations } = location.state;
+
+  const { message_id, locations } = location.state.state;
   const onConfirmJourney = async () => {
     const data = {
-      context: ContextBuilder.getContext('confirm', initResults?.[0]?.context?.bpp_uri, initResults?.[0]?.context?.transaction_id),
+      context: ContextBuilder.getContext(
+        'confirm',
+        initResults?.[0]?.context?.bpp_uri,
+        initResults?.[0]?.context?.transaction_id,
+      ),
       message: {
         order: {
           id: initResults?.[0]?.message?.order?.id,
@@ -35,13 +40,38 @@ const InitScreen = ({ isMapsLoaded }) => {
             id: initResults?.[0]?.message?.order?.provider?.id,
           },
           items: initResults?.[0]?.message?.order?.items,
-          fulfillment: initResults?.[0]?.message?.order?.provider?.fulfillments?.[0],
+          fulfillment:
+            initResults?.[0]?.message?.order?.provider?.fulfillments?.[0],
         },
       },
     };
     const response = await Api.post('/confirm', data);
     if (response.message_id) {
-      navigate('/confirm', { state: { ...response } });
+      navigate.push('/confirm', { state: { ...response } });
+    }
+  };
+
+  const createTrip = async () => {
+    try {
+      const locationDetails = {
+        start: initResults?.[0]?.message?.order?.fulfillment?.start,
+        end: initResults?.[0]?.message?.order?.fulfillment?.end,
+      };
+      const data = {
+        driver: initResults?.[0]?.message?.order?.fulfillment?.agent?.name,
+        qoute: initResults?.[0]?.message?.order?.quote,
+        location: locationDetails,
+        vehicle: initResults?.[0]?.message?.order?.fulfillment?.vehicle?.category,
+        transaction_id: initResults?.[0]?.context?.transaction_id,
+        bpp_uri: initResults?.[0]?.context?.bpp_uri,
+        fulfillment_id: initResults?.[0]?.message?.order?.fulfillment?.id,
+        provider_id: initResults?.[0]?.message?.order?.provider?.id,
+        order_id: initResults?.[0]?.message?.order?.id,
+      };
+      const response = await Api.post('/create-trip', data, true);
+      return response;
+    } catch (error) {
+      return error.message ? error.message : error;
     }
   };
   const getInitResult = useCallback(async () => {
@@ -61,43 +91,48 @@ const InitScreen = ({ isMapsLoaded }) => {
   }, [getInitResult, loading]);
   const displayPaymentMode = () => (
     <Grid container>
-      <Grid item xs={12}>
-        <Payment onConfirmPayment={onConfirmJourney} initResults={initResults} />
+      <Grid
+        item
+        xs={12}
+      >
+        <Payment
+          onConfirmPayment={onConfirmJourney}
+          initResults={initResults}
+          createTrip={createTrip}
+        />
       </Grid>
     </Grid>
   );
   const gotoHome = () => {
-    navigate('/', { state: {} });
+    navigate.push('/', { state: {} });
   };
   return (
     <>
       <Header onBackClick={gotoHome} />
-      {isMapsLoaded
-        && (
+      {isMapsLoaded && (
         <Map
           openPanel={openPanel}
           showMarker={false}
           destinationLocation={locations.destinationLocation}
           originLocation={locations.originLocation}
         />
-        )}
-      {loading
-        ? (
-          <Loader
-            isLoaded={isMapsLoaded}
-            destinationLocation={locations.destinationLocation}
-            originLocation={locations.originLocation}
-          />
-        ) : (
-          <Panel
-            panelChildren={displayPaymentMode()}
-            open={openPanel}
-            toggleDrawer={toggleDrawer}
-            closeDrawer={closeDrawer}
-            openDrawerHeight="350px"
-            isPullerPresent={false}
-          />
-        )}
+      )}
+      {loading ? (
+        <Loader
+          isLoaded={isMapsLoaded}
+          destinationLocation={locations.destinationLocation}
+          originLocation={locations.originLocation}
+        />
+      ) : (
+        <Panel
+          panelChildren={displayPaymentMode()}
+          open={openPanel}
+          toggleDrawer={toggleDrawer}
+          closeDrawer={closeDrawer}
+          openDrawerHeight="350px"
+          isPullerPresent={false}
+        />
+      )}
       <Footer />
     </>
   );

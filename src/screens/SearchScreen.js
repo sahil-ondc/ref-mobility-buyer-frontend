@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -33,7 +33,7 @@ const LocationSearchDrawer = ({
   setDateTime,
   isMapsLoaded,
 }) => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const onSearchClick = async () => {
     const data = {
       intent: {
@@ -70,17 +70,35 @@ const LocationSearchDrawer = ({
       originLocation: fromLocation,
       destinationLocation: toLocation,
     };
-    navigate('/search', { state: { ...response } });
+    navigate.push('/search', { state: { ...response } });
   };
 
   return (
-    <Grid container paddingTop={4}>
-      <Grid paddingTop={1} container direction="row" alignContent="center">
-        <FilterSection category={category} onCategoryChange={setCategory} />
+    <Grid
+      container
+      paddingTop={4}
+    >
+      <Grid
+        paddingTop={1}
+        container
+        direction="row"
+        alignContent="center"
+      >
+        <FilterSection
+          category={category}
+          onCategoryChange={setCategory}
+        />
       </Grid>
-      <Grid container direction="column" paddingTop={0.5}>
+      <Grid
+        container
+        direction="column"
+        paddingTop={0.5}
+      >
         {isMapsLoaded && (
-          <Grid item paddingTop={1}>
+          <Grid
+            item
+            paddingTop={1}
+          >
             {openPanel ? (
               <LocationSearch
                 label="From"
@@ -91,11 +109,7 @@ const LocationSearchDrawer = ({
                 isPanelOpen={openPanel}
               />
             ) : null}
-            {openPanel
-              ? (
-                <SwapButton onSwapLocation={onSwapLocation} />
-              )
-              : null}
+            {openPanel ? <SwapButton onSwapLocation={onSwapLocation} /> : null}
             <LocationSearch
               label="Where do you want to go ?"
               initialLocation={toLocation}
@@ -107,8 +121,15 @@ const LocationSearchDrawer = ({
             />
           </Grid>
         )}
-        <Grid paddingY={2} display="flex" flex={1}>
-          <DateTime onDateTimeChange={setDateTime} dateTime={dateTime} />
+        <Grid
+          paddingY={2}
+          display="flex"
+          flex={1}
+        >
+          <DateTime
+            onDateTimeChange={setDateTime}
+            dateTime={dateTime}
+          />
         </Grid>
         <Grid>
           <Button
@@ -116,15 +137,12 @@ const LocationSearchDrawer = ({
             variant="contained"
             fullWidth
             onClick={onSearchClick}
-            disabled={
-              !(fromLocation && toLocation)
-            }
+            disabled={!(fromLocation && toLocation)}
             endIcon={<ArrowForwardIcon />}
           >
             Search
           </Button>
         </Grid>
-
       </Grid>
     </Grid>
   );
@@ -194,24 +212,28 @@ const SearchScreen = ({ isMapsLoaded }) => {
         drawerHeight={isMapsLoaded ? panelHeightSearchScreen : 20}
         openDrawerHeight={isMapsLoaded ? '70%' : '30%'}
         isPullerPresent={!!isMapsLoaded}
-        panelChildren={isMapsLoaded ? (
-          <LocationSearchDrawer
-            fromLocation={fromLocation}
-            toLocation={toLocation}
-            toggleDrawer={toggleDrawer}
-            swapped={swapped}
-            setSwapped={setSwapped}
-            openPanel={openPanel}
-            isMapsLoaded={isMapsLoaded}
-            onSwapLocation={onSwapLocation}
-            setFromLocation={setFromLocation}
-            setToLocation={setToLocation}
-            category={category}
-            setCategory={setCategory}
-            dateTime={dateTime}
-            setDateTime={setDateTime}
-          />
-        ) : (<CarLoader isTextAbsent />)}
+        panelChildren={
+          isMapsLoaded ? (
+            <LocationSearchDrawer
+              fromLocation={fromLocation}
+              toLocation={toLocation}
+              toggleDrawer={toggleDrawer}
+              swapped={swapped}
+              setSwapped={setSwapped}
+              openPanel={openPanel}
+              isMapsLoaded={isMapsLoaded}
+              onSwapLocation={onSwapLocation}
+              setFromLocation={setFromLocation}
+              setToLocation={setToLocation}
+              category={category}
+              setCategory={setCategory}
+              dateTime={dateTime}
+              setDateTime={setDateTime}
+            />
+          ) : (
+            <CarLoader isTextAbsent />
+          )
+        }
         open={isMapsLoaded ? openPanel : true}
         toggleDrawer={toggleDrawer}
         isTransitionPresent={isMapsLoaded}

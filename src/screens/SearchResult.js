@@ -1,6 +1,7 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint camelcase: 0 */
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -17,7 +18,7 @@ import './SearchResult.css';
 
 const SearchResult = ({ isMapsLoaded }) => {
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const [openPanel, setOpenPanel] = useState(true);
   const toggleDrawer = () => {
     setOpenPanel(true);
@@ -25,7 +26,7 @@ const SearchResult = ({ isMapsLoaded }) => {
   const closeDrawer = () => {
     setOpenPanel(false);
   };
-  const { message_id, locationMap, locations } = location.state;
+  const { message_id, locationMap, locations } = location?.state?.state;
   const [searchResults, setSearchResults] = useState([]);
   const [originLocation] = useState(locations.originLocation);
   const [destinationLocation] = useState(locations.destinationLocation);
@@ -82,11 +83,17 @@ const SearchResult = ({ isMapsLoaded }) => {
     response.provider = info?.provider;
     response.locations = locations;
     if (response.message_id) {
-      navigate('/select', { state: { ...response } });
+      navigate.push('/select', { state: { ...response } });
     }
   };
 
-  const onSelectJourney = (item, provider, fulfillments, bppUrl, isSelected) => {
+  const onSelectJourney = (
+    item,
+    provider,
+    fulfillments,
+    bppUrl,
+    isSelected,
+  ) => {
     if (isSelected) {
       setSelectedItemId(item.id);
       setSelectedProviderId(provider.id);
@@ -109,13 +116,19 @@ const SearchResult = ({ isMapsLoaded }) => {
   };
 
   const gotoHome = () => {
-    navigate('/', { state: {} });
+    navigate.push('/', { state: {} });
   };
 
   const displayCatalogs = () => (
     <Grid container>
-      <LocationTracer locationMap={locationMap} isSearchResult />
-      <Grid item xs={12}>
+      <LocationTracer
+        locationMap={locationMap}
+        isSearchResult
+      />
+      <Grid
+        item
+        xs={12}
+      >
         {searchResults.map((bppProvider) => (
           <div key={bppProvider.context.bpp_id}>
             {_.has(bppProvider.message.catalog, 'bpp/providers') && (
@@ -152,12 +165,12 @@ const SearchResult = ({ isMapsLoaded }) => {
     <>
       <Header onBackClick={gotoHome} />
       {isMapsLoaded && (
-      <Map
-        openPanel={openPanel}
-        showMarker={false}
-        destinationLocation={destinationLocation}
-        originLocation={originLocation}
-      />
+        <Map
+          openPanel={openPanel}
+          showMarker={false}
+          destinationLocation={destinationLocation}
+          originLocation={originLocation}
+        />
       )}
       {loading ? (
         <Loader />

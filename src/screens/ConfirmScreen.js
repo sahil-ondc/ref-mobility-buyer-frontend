@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Loader from '../components/Loader';
 import Header from '../components/Header';
 import Api from '../api/Api';
@@ -10,12 +10,12 @@ import ContextBuilder from '../utilities/ContextBuilder';
 import Footer from '../components/Footer';
 
 const ConfirmScreen = () => {
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const [loading, setLoading] = useState(true);
   const [confirmResults, setConfirmResults] = useState([]);
   const [confirmResultsLoaded, setConfirmResultsLoaded] = useState(false);
   const location = useLocation();
-  const { message_id } = location.state;
+  const { message_id } = location.state.state;
 
   const onTrackVehicle = async () => {
     const sampleContext = ContextBuilder.getContext(
@@ -36,7 +36,7 @@ const ConfirmScreen = () => {
     };
     const response = await Api.post('/track', data);
     if (response.message_id) {
-      navigate('/track', { state: { ...response } });
+      navigate.push('/track', { state: { ...response } });
     }
   };
 
@@ -59,7 +59,7 @@ const ConfirmScreen = () => {
     };
     const response = await Api.post('/status', data);
     if (response.message_id) {
-      navigate('/status', { state: { ...response } });
+      navigate.push('/status', { state: { ...response } });
     }
   };
 
