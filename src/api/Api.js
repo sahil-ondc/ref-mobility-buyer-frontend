@@ -1,7 +1,7 @@
 const post = async (url, body, auth) => {
   const token = window.localStorage.getItem('token');
   const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
-  const response = await fetch(url, {
+  const response = await fetch(`/v1${url}`, {
     method: 'post',
     body: JSON.stringify(body),
     headers,
@@ -15,14 +15,14 @@ const get = async (url, queryParams) => {
       (k) => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`,
     )
     .join('&');
-  const response = await fetch(`${url}?${query}`);
+  const response = await fetch(`/v1${url}?${query}`);
   return response.json();
 };
 
 const authGet = async (url, auth) => {
   const token = window.localStorage.getItem('token');
   const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
-  const response = await fetch(url, {
+  const response = await fetch(`/v1${url}`, {
     headers,
   });
   return response.json();
@@ -30,7 +30,7 @@ const authGet = async (url, auth) => {
 const put = async (url, body, auth) => {
   const token = window.localStorage.getItem('token');
   const headers = auth ? { 'Content-Type': 'application/json', token } : { 'Content-Type': 'application/json' };
-  const response = await fetch(url, {
+  const response = await fetch(`/v1${url}`, {
     method: 'put',
     body: JSON.stringify(body),
     headers,
