@@ -15,7 +15,7 @@ const get = async (url, queryParams) => {
       (k) => `${encodeURIComponent(k)}=${encodeURIComponent(queryParams[k])}`,
     )
     .join('&');
-  const response = await fetch(`/v1${url}?${query}`);
+  const response = await fetch(`/v1/${url}?${query}`);
   return response.json();
 };
 
