@@ -2,8 +2,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import {
-  Alert,
-  Avatar, Button, Snackbar,
+  Alert, Avatar, Button, Snackbar,
 } from '@mui/material';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
@@ -55,10 +54,7 @@ const Settings = () => {
   return (
     <div>
       <Header />
-      <Container
-        component="main"
-        maxWidth="xs"
-      >
+      <Container component="main" maxWidth="xs">
         <Box
           sx={{
             marginTop: '80px',
@@ -67,15 +63,9 @@ const Settings = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar
-            sx={{ height: 56, width: 56 }}
-            src={userDetails?.avatar}
-          />
+          <Avatar sx={{ height: 56, width: 56 }} src={userDetails?.avatar} />
 
-          <Typography
-            component="h1"
-            variant="h5"
-          >
+          <Typography component="h1" variant="h5">
             Edit Profile
           </Typography>
           <form onSubmit={handleSubmit(handleUpdate)}>
@@ -123,16 +113,8 @@ const Settings = () => {
         </Box>
       </Container>
       <Footer />
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-      >
-        <Alert
-          onClose={handleClose}
-          severity="success"
-          sx={{ width: '100%' }}
-        >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           User Details Updated Successfuly !!!
         </Alert>
       </Snackbar>

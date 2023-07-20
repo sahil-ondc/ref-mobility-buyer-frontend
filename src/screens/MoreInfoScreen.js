@@ -61,10 +61,7 @@ const MoreInfoScreen = () => {
   }, [userDetail]);
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-    >
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
           marginTop: 8,
@@ -76,22 +73,12 @@ const MoreInfoScreen = () => {
         <Avatar sx={{ m: 1, bgcolor: 'green' }}>
           <InfoIcon />
         </Avatar>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{ margin: '20px' }}
-        >
+        <Typography component="h1" variant="h5" sx={{ margin: '20px' }}>
           More Details
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid
-            container
-            spacing={2}
-          >
-            <Grid
-              item
-              xs={12}
-            >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
                 name="name"
@@ -103,10 +90,7 @@ const MoreInfoScreen = () => {
                 autoFocus
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
@@ -117,10 +101,7 @@ const MoreInfoScreen = () => {
                 {...register('email')}
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <TextField
                 autoComplete="phone"
                 name="phone"
@@ -131,21 +112,32 @@ const MoreInfoScreen = () => {
                 {...register('phone')}
               />
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <FormControl>
-                <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel>
+                <FormLabel id="demo-radio-buttons-group-label">
+                  Gender
+                </FormLabel>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
                   defaultValue="male"
                   name="radio-buttons-group"
                   {...register('gender')}
                 >
-                  <FormControlLabel value="male" control={<Radio />} label="Male" />
-                  <FormControlLabel value="female" control={<Radio />} label="Female" />
-                  <FormControlLabel value="other" control={<Radio />} label="Other" />
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Other"
+                  />
                 </RadioGroup>
               </FormControl>
             </Grid>
