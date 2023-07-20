@@ -15,13 +15,23 @@ import { useForm } from 'react-hook-form';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useHistory } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import SIGNUP_SCHEMA from '../validations/signUpValidations';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
 
 const SignUpScreen = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(SIGNUP_SCHEMA),
+  });
 
   const navigate = useHistory();
   const onSubmit = async (data) => {
@@ -36,11 +46,9 @@ const SignUpScreen = () => {
       return error;
     }
   };
+
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-    >
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
@@ -53,79 +61,94 @@ const SignUpScreen = () => {
         <Avatar sx={{ m: 1, bgcolor: 'green' }}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography
-          component="h1"
-          variant="h5"
-        >
+        <Typography component="h1" variant="h5">
           Sign up
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid
-            container
-            spacing={2}
-          >
-            <Grid
-              item
-              xs={12}
-            >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
               <TextField
                 autoComplete="given-name"
-                name="name"
-                required
+                error={errors?.name}
                 fullWidth
                 id="firstName"
                 label="First Name"
                 {...register('name')}
                 autoFocus
               />
+              {errors?.name && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.name?.message}
+                </Typography>
+              )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <TextField
-                required
+                error={errors?.email}
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
                 autoComplete="email"
                 {...register('email')}
               />
+              {errors?.email && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.email?.message}
+                </Typography>
+              )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <TextField
                 autoComplete="phone"
-                name="phone"
-                required
+                error={errors?.phone}
                 fullWidth
                 id="phone"
                 label="Phone Number"
                 {...register('phone')}
               />
+              {errors?.phone && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.phone?.message}
+                </Typography>
+              )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <TextField
-                required
+                error={errors?.password}
                 fullWidth
-                name="password"
                 label="Password"
                 type={showPassword ? 'text' : 'password'}
                 id="password"
                 autoComplete="new-password"
                 {...register('password')}
               />
+              {errors?.password && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.password?.message}
+                </Typography>
+              )}
             </Grid>
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <FormControlLabel
                 control={(
                   <Checkbox
@@ -147,15 +170,9 @@ const SignUpScreen = () => {
             Sign Up
           </Button>
         </form>
-        <Grid
-          container
-          justifyContent="flex-end"
-        >
+        <Grid container justifyContent="flex-end">
           <Grid item>
-            <Link
-              href="/login"
-              variant="body2"
-            >
+            <Link href="/login" variant="body2">
               Already have an account? Sign in
             </Link>
           </Grid>
