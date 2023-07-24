@@ -74,31 +74,13 @@ const LocationSearchDrawer = ({
   };
 
   return (
-    <Grid
-      container
-      paddingTop={4}
-    >
-      <Grid
-        paddingTop={1}
-        container
-        direction="row"
-        alignContent="center"
-      >
-        <FilterSection
-          category={category}
-          onCategoryChange={setCategory}
-        />
+    <Grid container paddingTop={4}>
+      <Grid paddingTop={1} container direction="row" alignContent="center">
+        <FilterSection category={category} onCategoryChange={setCategory} />
       </Grid>
-      <Grid
-        container
-        direction="column"
-        paddingTop={0.5}
-      >
+      <Grid container direction="column" paddingTop={0.5}>
         {isMapsLoaded && (
-          <Grid
-            item
-            paddingTop={1}
-          >
+          <Grid item paddingTop={1}>
             {openPanel ? (
               <LocationSearch
                 label="From"
@@ -121,15 +103,8 @@ const LocationSearchDrawer = ({
             />
           </Grid>
         )}
-        <Grid
-          paddingY={2}
-          display="flex"
-          flex={1}
-        >
-          <DateTime
-            onDateTimeChange={setDateTime}
-            dateTime={dateTime}
-          />
+        <Grid paddingY={2} display="flex" flex={1}>
+          <DateTime onDateTimeChange={setDateTime} dateTime={dateTime} />
         </Grid>
         <Grid>
           <Button

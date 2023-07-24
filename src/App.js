@@ -11,6 +11,7 @@ import {
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@emotion/react';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { AppProvider } from './context/userContext';
 import GooglePlacesApiLoader from './api/googlePlacesApiLoader';
 import routes from './routes';
 import PrivateLayout from './components/PrivateLayout';
@@ -27,7 +28,10 @@ const theme = createTheme({
 });
 
 export const CustomRoutes = ({
-  restricted, component: Component, isLoaded, ...rest
+  restricted,
+  component: Component,
+  isLoaded,
+  ...rest
 }) => {
   const navigate = useHistory();
 
@@ -40,17 +44,19 @@ export const CustomRoutes = ({
   }, [restricted]);
 
   return (
-    <Route {...rest}>
-      {restricted ? (
-        <PrivateLayout>
-          <Component isMapsLoaded={isLoaded} />
-        </PrivateLayout>
-      ) : (
-        <PublicLayout>
-          <Component />
-        </PublicLayout>
-      )}
-    </Route>
+    <AppProvider>
+      <Route {...rest}>
+        {restricted ? (
+          <PrivateLayout>
+            <Component isMapsLoaded={isLoaded} />
+          </PrivateLayout>
+        ) : (
+          <PublicLayout>
+            <Component />
+          </PublicLayout>
+        )}
+      </Route>
+    </AppProvider>
   );
 };
 const App = () => {

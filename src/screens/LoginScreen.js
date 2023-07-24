@@ -1,8 +1,14 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
+import { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import { Alert, Snackbar } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -11,30 +17,44 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useForm } from 'react-hook-form';
-import { useHistory } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
+import { AppContext } from '../context/userContext';
+import VALIDATION_SCHEMA from '../validations/loginValidations';
 
 const SignIn = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(VALIDATION_SCHEMA),
+  });
+  const [open, setOpen] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const navigate = useHistory();
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const { setUserInfo } = useContext(AppContext);
+
   const onSubmit = async (data) => {
     try {
       const res = await Api.post('/login', data);
+
       if (res.success) {
         const token = res?.data?.token;
         window.localStorage.setItem('token', token);
         navigate.push('/');
-      }
+      } else setOpen(true);
     } catch (error) {
       return error;
     }
   };
+
   const handleSignup = () => {
     navigate.push('/signUp');
   };
@@ -46,16 +66,18 @@ const SignIn = () => {
     if (res.success) {
       const token = res?.data?.token;
       window.localStorage.setItem('token', token);
-      navigate.push('/moreInfo');
+      setUserInfo(res?.data);
+      if (res?.data?.user?.phone) {
+        navigate.push('/');
+      } else {
+        navigate.push('/onboarding');
+      }
     }
   };
 
   return (
     <>
-      <Container
-        component="main"
-        maxWidth="xs"
-      >
+      <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
           sx={{
@@ -68,35 +90,53 @@ const SignIn = () => {
           <Avatar sx={{ m: 1, bgcolor: '#327B18' }}>
             <LockOutlinedIcon />
           </Avatar>
-          <Typography
-            component="h1"
-            variant="h5"
-          >
+          <Typography component="h1" variant="h5">
             Log In
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              {...register('email')}
-            />
-
-            <TextField
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              autoComplete="new-password"
-              {...register('password')}
-            />
+            <Box>
+              <TextField
+                error={errors.email}
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email Address"
+                autoComplete="email"
+                autoFocus
+                {...register('email')}
+              />
+              {errors?.email && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.email?.message}
+                </Typography>
+              )}
+            </Box>
+            <Box>
+              <TextField
+                error={errors.password}
+                fullWidth
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                autoComplete="new-password"
+                {...register('password')}
+              />
+              {errors?.password && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.password?.message}
+                </Typography>
+              )}
+            </Box>
 
             <FormControlLabel
               control={(
@@ -105,7 +145,7 @@ const SignIn = () => {
                   color="primary"
                   onClick={handleClickShowPassword}
                 />
-                )}
+              )}
               label="Show Password"
             />
 
@@ -138,11 +178,16 @@ const SignIn = () => {
               }}
               useOneTap
             />
-
           </form>
         </Box>
       </Container>
+
       <Footer />
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Invalid credentials!
+        </Alert>
+      </Snackbar>
     </>
   );
 };
