@@ -1,0 +1,10 @@
+@media (max-width: 767px) {
+  .signup-wrapper {
+    overflow-y: scroll;
+    height: 420px;
+    padding-top: 10px;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

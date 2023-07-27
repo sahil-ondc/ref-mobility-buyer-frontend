@@ -37,8 +37,8 @@ export default function ControlledAccordions() {
       <Header />
       <div className="Trip-wrapper">
         <h3>Trips Summary</h3>
-        {trips
-          ? (trips?.map((trip, index) => (
+        {trips ? (
+          trips?.map((trip, index) => (
             <Accordion
               expanded={expanded === index}
               onChange={handleChange(index)}
@@ -51,41 +51,73 @@ export default function ControlledAccordions() {
               >
                 <Typography sx={{ fontSize: '12px' }}>
                   {trip.vehicle}
-                  <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.transaction_id}</Typography>
+                  <Typography
+                    sx={{ color: 'text.secondary', fontSize: '12px' }}
+                  >
+                    {trip.transaction_id}
+                  </Typography>
                 </Typography>
               </AccordionSummary>
               {/* <Divider /> */}
               <AccordionDetails>
                 <Grid container spacing={2} columns={16} rowSpacing={1}>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}>User Name :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      User Name :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.user?.name}</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      {trip.user?.name}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}>User Phone :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      User Phone :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.user?.phone}</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      {trip.user?.phone}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}>  Driver Name :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      {' '}
+                      Driver Name :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.driver}</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      {trip.driver}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
                     <Typography sx={{ fontSize: '12px' }}> State :</Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>Completed</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      Completed
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}> Start Location:</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      {' '}
+                      Start Location:
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
                       {trip?.location?.start?.location?.address?.door}
                       ,
                       {trip?.location?.start?.location?.address?.street}
@@ -95,14 +127,18 @@ export default function ControlledAccordions() {
                       {trip?.location?.start?.location?.address?.city}
                       ,
                       {trip?.location?.start?.location?.address?.country}
-
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}> End Location :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      {' '}
+                      End Location :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
                       {' '}
                       {trip?.location?.end?.location?.address?.door}
                       ,
@@ -113,18 +149,22 @@ export default function ControlledAccordions() {
                       {trip?.location?.end?.location?.address?.city}
                       ,
                       {trip?.location?.end?.location?.address?.country}
-
                     </Typography>
                   </Grid>
 
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px', fontWeight: '500' }}>Fair </Typography>
+                    <Typography sx={{ fontSize: '12px', fontWeight: '500' }}>
+                      Fair
+                      {' '}
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }} />
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    />
                   </Grid>
                   <hr style={{ width: '100%' }} />
-                  { trip?.qoute?.breakup?.map((item) => (
+                  {trip?.qoute?.breakup?.map((item) => (
                     <>
                       <Grid item xs={6}>
                         <Typography sx={{ fontSize: '12px' }}>
@@ -134,22 +174,24 @@ export default function ControlledAccordions() {
                         </Typography>
                       </Grid>
                       <Grid item xs={10}>
-                        <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>
+                        <Typography
+                          sx={{ color: 'text.secondary', fontSize: '12px' }}
+                        >
                           {item?.price?.currency}
                           :
-
                           {item?.price?.value}
                         </Typography>
                       </Grid>
                     </>
-                  )) }
+                  ))}
                   <hr style={{ width: '100%' }} />
                   <Grid item xs={6}>
                     <Typography sx={{ fontSize: '12px' }}>Total :</Typography>
                   </Grid>
                   <Grid item xs={10}>
-
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
                       {' '}
                       {`${trip?.qoute?.currency}    : `}
                       {trip?.qoute?.value}
@@ -157,25 +199,37 @@ export default function ControlledAccordions() {
                   </Grid>
                   <hr style={{ width: '100%' }} />
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}> Order Id :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      {' '}
+                      Order Id :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.order_id}</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      {trip.order_id}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography sx={{ fontSize: '12px' }}>Created At :</Typography>
+                    <Typography sx={{ fontSize: '12px' }}>
+                      Created At :
+                    </Typography>
                   </Grid>
                   <Grid item xs={10}>
-                    <Typography sx={{ color: 'text.secondary', fontSize: '12px' }}>{trip.createdAt}</Typography>
+                    <Typography
+                      sx={{ color: 'text.secondary', fontSize: '12px' }}
+                    >
+                      {trip.createdAt}
+                    </Typography>
                   </Grid>
-
                 </Grid>
-
               </AccordionDetails>
             </Accordion>
-          )))
-          : (<h2> No Trips Found</h2>)}
-
+          ))
+        ) : (
+          <h2> No Trips Found</h2>
+        )}
       </div>
       <Footer />
     </div>

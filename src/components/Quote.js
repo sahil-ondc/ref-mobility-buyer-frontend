@@ -88,57 +88,58 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
       </Grid>
 
       {otherUser && (
-      <Grid
-        sx={{
-          maxWidth: '100%',
-          flexGrow: 1,
-          minWidth: '50%',
-        }}
-      >
-        <Typography variant="h6" fontSize="1.2em" textAlign="center">
-          Other User Details
-        </Typography>
-        <Grid className="quote-fare-breakup">
-          <Grid marginBottom="2%">
-            <InputField
-              pattern="^[a-zA-Z ]+$"
-              label="name"
-              value={name}
-              setValue={setName}
-              formatValueFunc={formatValue}
-              errorMessage="name should only contains alphabets and spaces"
-              isPanelOpen
-              marginBottom="2%"
-            />
-          </Grid>
-          <Grid marginBottom="2%">
-            <InputField
-              pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9]+[.]"
-              label="email"
-              value={email}
-              setValue={setEmail}
-              formatValueFunc={formatValue}
-              errorMessage="invalid email address"
-              isPanelOpen
-              marginBottom="2%"
-            />
-          </Grid>
-          <Grid marginBottom="2%">
-            <InputField
-              pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
-              label="phone number"
-              value={phoneNumber}
-              setValue={setPhoneNumber}
-              formatValueFunc={formatValue}
-              errorMessage="invalid phone number"
-              isPanelOpen
-            />
+        <Grid
+          sx={{
+            maxWidth: '100%',
+            flexGrow: 1,
+            minWidth: '50%',
+          }}
+        >
+          <Typography variant="h6" fontSize="1.2em" textAlign="center">
+            Other User Details
+          </Typography>
+          <Grid className="quote-fare-breakup">
+            <Grid marginBottom="2%">
+              <InputField
+                pattern="^[a-zA-Z][a-zA-Z ]*$"
+                label="Name"
+                value={name}
+                setValue={setName}
+                formatValueFunc={formatValue}
+                errorMessage="name should only contains alphabets"
+                isPanelOpen
+                marginBottom="2%"
+              />
+            </Grid>
+            <Grid marginBottom="2%">
+              <InputField
+                pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9]+[.]"
+                label="Email id"
+                value={email}
+                setValue={setEmail}
+                formatValueFunc={formatValue}
+                errorMessage="invalid email address"
+                isPanelOpen
+                marginBottom="2%"
+              />
+            </Grid>
+            <Grid marginBottom="2%">
+              <InputField
+                pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$"
+                label="Phone Number"
+                value={phoneNumber}
+                setValue={setPhoneNumber}
+                formatValueFunc={formatValue}
+                maxLength={10}
+                errorMessage="invalid phone number"
+                isPanelOpen
+              />
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
       )}
 
-      { otherUser ? (
+      {otherUser ? (
         <Typography
           sx={{ marginLeft: '150px' }}
           align="right"

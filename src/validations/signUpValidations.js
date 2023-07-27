@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
 
 const SIGNUP_SCHEMA = Yup.object().shape({
-  name: Yup.string().required('First Name is required'),
+  name: Yup.string()
+    .matches(/^[a-zA-Z]/, 'Username can only contain letters (a-z or A-Z).')
+    .required('Name is required'),
   email: Yup.string()
     .required('Please enter the valid email ID')
     .trim()

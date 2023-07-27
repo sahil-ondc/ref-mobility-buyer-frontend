@@ -17,7 +17,9 @@ const ToggleButton = styled(MuiToggleButton)(() => ({
 
 const FilterSection = ({ category, onCategoryChange }) => {
   const handleCategory = (_, selectedCategory) => {
-    onCategoryChange(selectedCategory);
+    if (selectedCategory !== null) {
+      onCategoryChange(selectedCategory);
+    }
   };
 
   const style = {
@@ -28,14 +30,36 @@ const FilterSection = ({ category, onCategoryChange }) => {
 
   return (
     <Grid className="filter-section">
-      <ToggleButtonGroup exclusive color="primary" value={category} onChange={handleCategory} className="toggle-button-group">
+      <ToggleButtonGroup
+        exclusive
+        color="primary"
+        value={category}
+        onChange={handleCategory}
+        className="toggle-button-group"
+      >
         <ToggleButton value="cabs" style={style} data-testid="cabs">
-          <DirectionsCarFilledIcon color={category === 'cabs' ? 'white' : 'primary'} fontSize="small" />
-          <Typography color={category === 'cabs' ? 'white' : 'primary'} paddingX="8px">Cabs</Typography>
+          <DirectionsCarFilledIcon
+            color={category === 'cabs' ? 'white' : 'primary'}
+            fontSize="small"
+          />
+          <Typography
+            color={category === 'cabs' ? 'white' : 'primary'}
+            paddingX="8px"
+          >
+            Cabs
+          </Typography>
         </ToggleButton>
         <ToggleButton value="trains" style={style} data-testid="trains">
-          <DirectionsSubwayIcon color={category === 'trains' ? 'white' : 'primary'} fontSize="small" />
-          <Typography color={category === 'trains' ? 'white' : 'primary'} paddingX="8px">Trains</Typography>
+          <DirectionsSubwayIcon
+            color={category === 'trains' ? 'white' : 'primary'}
+            fontSize="small"
+          />
+          <Typography
+            color={category === 'trains' ? 'white' : 'primary'}
+            paddingX="8px"
+          >
+            Trains
+          </Typography>
         </ToggleButton>
       </ToggleButtonGroup>
     </Grid>

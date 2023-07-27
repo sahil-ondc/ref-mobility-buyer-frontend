@@ -13,6 +13,8 @@ const InputField = ({
   errorMessage,
   toggleDrawer,
   isPanelOpen,
+  maxLength,
+  error,
 }) => {
   const disabledState = !(value && value.length > 0);
   const [disabled, setDisabled] = useState(disabledState);
@@ -39,6 +41,7 @@ const InputField = ({
       fullWidth
       sx={{ marginBottom: !isPanelOpen ? '36px' : '0px' }}
       label={label}
+      error={error}
       variant="outlined"
       value={value}
       onChange={onChange}
@@ -53,6 +56,9 @@ const InputField = ({
             </IconButton>
           </InputAdornment>
         ),
+        inputProps: {
+          maxLength: { maxLength },
+        },
       }}
     />
   );

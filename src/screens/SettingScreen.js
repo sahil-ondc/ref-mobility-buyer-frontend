@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Alert, Avatar, Button, Snackbar,
 } from '@mui/material';
@@ -11,9 +12,19 @@ import Typography from '@mui/material/Typography';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
+import USER_INFO_SCHEMA from '../validations/userInfoValidations';
 
 const Settings = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(USER_INFO_SCHEMA),
+  });
   const [open, setOpen] = React.useState(false);
   const [userDetails, setUserDetails] = React.useState({});
   // eslint-disable-next-line consistent-return
@@ -70,36 +81,63 @@ const Settings = () => {
           </Typography>
           <form onSubmit={handleSubmit(handleUpdate)}>
             <TextField
+              error={errors?.name}
               margin="normal"
-              required
               fullWidth
               id="name"
-              name="name"
               autoComplete="name"
               placeholder="Name"
               {...register('name')}
             />
+            {errors?.name && (
+              <Typography
+                variant="caption"
+                display="block"
+                color="#d32f2f"
+                gutterBottom
+              >
+                {errors?.name?.message}
+              </Typography>
+            )}
             <TextField
+              error={errors?.email}
               margin="normal"
-              required
               fullWidth
               id="email"
-              name="email"
               placeholder="Email"
               autoComplete="email"
               {...register('email')}
               disabled
             />
+            {errors?.email && (
+              <Typography
+                variant="caption"
+                display="block"
+                color="#d32f2f"
+                gutterBottom
+              >
+                {errors?.email?.message}
+              </Typography>
+            )}
             <TextField
+              error={errors?.phone}
               margin="normal"
-              required
               fullWidth
               placeholder="Phone Number"
               id="phone"
-              name="phone"
               autoComplete="phone"
               {...register('phone')}
             />
+            {errors?.phone && (
+              <Typography
+                variant="caption"
+                display="block"
+                color="#d32f2f"
+                gutterBottom
+              >
+                {errors?.phone?.message}
+              </Typography>
+            )}
             <Button
               type="submit"
               fullWidth
