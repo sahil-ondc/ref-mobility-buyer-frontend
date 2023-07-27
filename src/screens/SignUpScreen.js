@@ -19,6 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import SIGNUP_SCHEMA from '../validations/signUpValidations';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
+import './SignupScreen.css';
 
 const SignUpScreen = () => {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -48,7 +49,10 @@ const SignUpScreen = () => {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      component="main"
+      maxWidth="xs"
+    >
       <CssBaseline />
       <Box
         sx={{
@@ -64,7 +68,7 @@ const SignUpScreen = () => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="signup-wrapper">
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -72,7 +76,7 @@ const SignUpScreen = () => {
                 error={errors?.name}
                 fullWidth
                 id="firstName"
-                label="First Name"
+                label="Name"
                 {...register('name')}
                 autoFocus
               />
@@ -114,6 +118,7 @@ const SignUpScreen = () => {
                 fullWidth
                 id="phone"
                 label="Phone Number"
+                inputProps={{ maxLength: 10 }}
                 {...register('phone')}
               />
               {errors?.phone && (

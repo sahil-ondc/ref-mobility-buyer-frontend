@@ -1,6 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Avatar from '@mui/material/Avatar';
 import InfoIcon from '@mui/icons-material/Info';
 import Button from '@mui/material/Button';
@@ -17,9 +18,19 @@ import Container from '@mui/material/Container';
 import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Api from '../api/Api';
+import USER_INFO_SCHEMA from '../validations/userInfoValidations';
 
 const MoreInfoScreen = () => {
-  const { register, handleSubmit, setValue } = useForm();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    resolver: yupResolver(USER_INFO_SCHEMA),
+  });
   const [userDetail, setUserDetail] = React.useState({});
 
   const navigate = useHistory();
@@ -80,37 +91,64 @@ const MoreInfoScreen = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                error={errors.name}
                 autoComplete="given-name"
-                name="name"
-                required
                 fullWidth
                 id="firstName"
                 placeholder="First Name"
                 {...register('name')}
                 autoFocus
               />
+              {errors?.name && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.name?.message}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
-                required
+                error={errors.email}
                 fullWidth
                 id="email"
                 placeholder="Email Address"
-                name="email"
                 autoComplete="email"
                 {...register('email')}
               />
+              {errors?.email && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.email?.message}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
+                error={errors.phone}
                 autoComplete="phone"
-                name="phone"
-                required
                 fullWidth
                 id="phone"
                 placeholder="Phone Number"
                 {...register('phone')}
               />
+              {errors?.phone && (
+                <Typography
+                  variant="caption"
+                  display="block"
+                  color="#d32f2f"
+                  gutterBottom
+                >
+                  {errors?.phone?.message}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <FormControl>

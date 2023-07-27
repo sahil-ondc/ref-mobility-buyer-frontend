@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import dayjs from 'dayjs';
 import Header from '../components/Header';
 import Api from '../api/Api';
 import LocationSearch from '../components/LocationSearch';
@@ -33,6 +34,7 @@ const LocationSearchDrawer = ({
   setDateTime,
   isMapsLoaded,
 }) => {
+  const currentDate = dayjs();
   const navigate = useHistory();
   const onSearchClick = async () => {
     const data = {
@@ -57,6 +59,7 @@ const LocationSearchDrawer = ({
         },
       },
     };
+
     const response = await Api.post('/search', data);
     response.locationMap = [
       {
@@ -89,6 +92,7 @@ const LocationSearchDrawer = ({
                 swapped={swapped}
                 onSwapped={setSwapped}
                 isPanelOpen={openPanel}
+                error={!fromLocation?.latLong}
               />
             ) : null}
             {openPanel ? <SwapButton onSwapLocation={onSwapLocation} /> : null}
@@ -100,11 +104,16 @@ const LocationSearchDrawer = ({
               swapped={swapped}
               onSwapped={setSwapped}
               isPanelOpen={openPanel}
+              error={!toLocation?.latLong}
             />
           </Grid>
         )}
         <Grid paddingY={2} display="flex" flex={1}>
-          <DateTime onDateTimeChange={setDateTime} dateTime={dateTime} />
+          <DateTime
+            onDateTimeChange={setDateTime}
+            dateTime={dateTime}
+            minDate={currentDate}
+          />
         </Grid>
         <Grid>
           <Button
@@ -112,7 +121,9 @@ const LocationSearchDrawer = ({
             variant="contained"
             fullWidth
             onClick={onSearchClick}
-            disabled={!(fromLocation && toLocation)}
+            disabled={
+              !(fromLocation?.latLong && toLocation?.latLong && !!dateTime)
+            }
             endIcon={<ArrowForwardIcon />}
           >
             Search
@@ -137,16 +148,16 @@ const SearchScreen = ({ isMapsLoaded }) => {
     latLong: '12.9702626,77.6099629',
   });
   const [swapped, setSwapped] = useState(false);
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('cabs');
   const [dateTime, setDateTime] = useState(new Date().toISOString());
   const [currentLocation, setCurrentLocation] = useState();
+
   const onSwapLocation = () => {
     setSwapped(true);
     setFromLocation(toLocation);
     setToLocation(fromLocation);
   };
   const panelHeightSearchScreen = !openPanel ? 200 : 20;
-
   useEffect(() => {
     LocationService.getCurrentLocation().then((location) => {
       if (!currentLocation) {
