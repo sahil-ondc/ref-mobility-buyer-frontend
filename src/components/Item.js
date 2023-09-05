@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Box, Typography, Grid } from '@mui/material';
 import {
-  Train,
   AccessTimeOutlined,
   DirectionsCarOutlined,
   CurrencyRupeeOutlined,
 } from '@mui/icons-material';
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 
 import TravelClassList from './TravelClassList';
 import Price from './Price';
@@ -14,10 +14,7 @@ import Time from './Time';
 import './Item.css';
 
 const Item = ({
-  item,
-  isSelected,
-  selectedTravelClassId,
-  onItemSelect,
+  item, isSelected, selectedTravelClassId, onItemSelect,
 }) => {
   const onSelect = (travelClassItem, isTravelClassSelected) => {
     if (!item.travelClass) {
@@ -39,35 +36,30 @@ const Item = ({
         paddingY={1}
       >
         {item.descriptor.images && item.descriptor.images.length > 0 ? (
-          <Grid
-            item
-            alignItems="center"
-            display="flex"
-            marginRight={1}
-          >
-            <img height={32} width={32} src={item.descriptor.images[0]} alt="item-icon" />
+          <Grid item alignItems="center" display="flex" marginRight={1}>
+            <img
+              height={32}
+              width={32}
+              src={item.descriptor.images[0]}
+              alt="item-icon"
+            />
           </Grid>
         ) : (
-          <Grid
-            item
-            alignItems="center"
-            display="flex"
-            marginRight={1}
-          >
-            <Train className="train-icon" />
+          <Grid item alignItems="center" display="flex" marginRight={1}>
+            <DirectionsCarFilledIcon />
           </Grid>
         )}
         {item.time && (
-          <Grid
-            item
-            alignItems="center"
-            display="flex"
-          >
+          <Grid item alignItems="center" display="flex">
             <Grid container direction="column">
               <Grid item>
                 <Typography variant="body1" color="grey" fontSize="small">
                   <AccessTimeOutlined
-                    style={{ fontSize: 'small', marginRight: '3px', color: 'grey' }}
+                    style={{
+                      fontSize: 'small',
+                      marginRight: '3px',
+                      color: 'grey',
+                    }}
                   />
                   Ride
                 </Typography>
@@ -78,12 +70,7 @@ const Item = ({
             </Grid>
           </Grid>
         )}
-        <Grid
-          item
-          alignItems="center"
-          justifyContent="center"
-          display="flex"
-        >
+        <Grid item alignItems="center" justifyContent="center" display="flex">
           <Grid
             container
             justifyContent="center"
@@ -100,14 +87,17 @@ const Item = ({
               />
               Vehicle
             </Typography>
-            <Typography variant="body1" fontSize="small" fontWeight="500" paddingLeft="1px">
+            <Typography
+              variant="body1"
+              fontSize="small"
+              fontWeight="500"
+              paddingLeft="1px"
+            >
               {item.descriptor.name}
             </Typography>
           </Grid>
         </Grid>
-        <Grid
-          item
-        >
+        <Grid item>
           <Grid
             container
             justifyContent="center"
@@ -115,7 +105,9 @@ const Item = ({
             direction="column"
           >
             <Typography color="grey" fontSize="small" variant="body1">
-              <CurrencyRupeeOutlined style={{ fontSize: 'small', marginRight: '3px', color: 'grey' }} />
+              <CurrencyRupeeOutlined
+                style={{ fontSize: 'small', marginRight: '3px', color: 'grey' }}
+              />
               Fare
             </Typography>
             <Price price={item.price} variant="medium" />

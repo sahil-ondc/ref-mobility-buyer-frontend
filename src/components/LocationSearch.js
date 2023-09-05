@@ -29,11 +29,11 @@ const LocationSearch = ({
     if (autocomplete !== null) {
       const place = autocomplete.getPlace();
       const locationObj = {
-        display: `${place?.name} ${place?.formatted_address}`,
+        display: `${place?.formatted_address}`,
         latLong: `${place?.geometry?.location.lat()},${place?.geometry?.location.lng()}`,
       };
       const locationDisplayObj = {
-        display: `${place?.name} ${place?.formatted_address}`,
+        display: `${place?.formatted_address}`,
         latLong: `${place?.geometry?.location.lat()},${place?.geometry?.location.lng()}`,
       };
       setLocation(locationDisplayObj);
