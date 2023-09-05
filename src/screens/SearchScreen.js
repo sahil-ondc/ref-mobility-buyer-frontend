@@ -144,14 +144,13 @@ const SearchScreen = ({ isMapsLoaded }) => {
     latLong: '12.9298819961062, 77.62865178465772',
   });
   const [toLocation, setToLocation] = useState({
-    display: 'Garuda Mall',
-    latLong: '12.9702626,77.6099629',
+    display: '',
+    latLong: '',
   });
   const [swapped, setSwapped] = useState(false);
   const [category, setCategory] = useState('cabs');
   const [dateTime, setDateTime] = useState(new Date().toISOString());
   const [currentLocation, setCurrentLocation] = useState();
-
   const onSwapLocation = () => {
     setSwapped(true);
     setFromLocation(toLocation);

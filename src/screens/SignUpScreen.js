@@ -49,10 +49,7 @@ const SignUpScreen = () => {
   };
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-    >
+    <Container component="main" maxWidth="xs">
       <CssBaseline />
       <Box
         sx={{
@@ -175,9 +172,13 @@ const SignUpScreen = () => {
             Sign Up
           </Button>
         </form>
-        <Grid container justifyContent="flex-end">
+        <Grid container justifyContent="center">
           <Grid item>
-            <Link href="/login" variant="body2">
+            <Link
+              href="/login"
+              variant="body2"
+              sx={{ textDecoration: 'none', color: '#B8B2A6' }}
+            >
               Already have an account? Sign in
             </Link>
           </Grid>

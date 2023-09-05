@@ -13,7 +13,7 @@ const InputField = ({
   errorMessage,
   toggleDrawer,
   isPanelOpen,
-  maxLength,
+  maxlength,
   error,
 }) => {
   const disabledState = !(value && value.length > 0);
@@ -57,7 +57,7 @@ const InputField = ({
           </InputAdornment>
         ),
         inputProps: {
-          maxLength: { maxLength },
+          maxLength: maxlength,
         },
       }}
     />

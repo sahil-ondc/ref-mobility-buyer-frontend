@@ -106,19 +106,19 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
                 value={name}
                 setValue={setName}
                 formatValueFunc={formatValue}
-                errorMessage="name should only contains alphabets"
+                errorMessage="Name should only contains alphabets"
                 isPanelOpen
                 marginBottom="2%"
               />
             </Grid>
             <Grid marginBottom="2%">
               <InputField
-                pattern="^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9]+[.]"
+                pattern="^(?=.*@)(?=.*(gmail\.com|outlook\.com|yahoo\.com)$)[a-zA-Z0-9+_.-]+@[a-zA-Z0-9]+[.]"
                 label="Email id"
                 value={email}
                 setValue={setEmail}
                 formatValueFunc={formatValue}
-                errorMessage="invalid email address"
+                errorMessage="Invalid email address"
                 isPanelOpen
                 marginBottom="2%"
               />
@@ -130,8 +130,8 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
                 value={phoneNumber}
                 setValue={setPhoneNumber}
                 formatValueFunc={formatValue}
-                maxLength={10}
-                errorMessage="invalid phone number"
+                maxlength={10}
+                errorMessage="Invalid phone number"
                 isPanelOpen
               />
             </Grid>
@@ -161,9 +161,11 @@ const QuoteProvider = ({ bookingInformation, onInitJourney }) => {
         variant="contained"
         disabled={
           !(
-            name.length > 0
+            name.match('^[a-zA-Z][a-zA-Z ]*$')
             && email.match('^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9]+[.]')
-            && phoneNumber.length === 10
+            && phoneNumber.match(
+              '^(\\+\\d{1,2}\\s)?\\(?\\d{3}\\)?[\\s.-]?\\d{3}[\\s.-]?\\d{4}$',
+            )
           )
         }
         sx={{ my: 2 }}
